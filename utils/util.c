@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:49:08 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/15 21:52:32 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:36:31 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,12 @@ int	whitespace(char input)
 		return (1);
 	return (0);
 }
+
+void	remove_token(t_token *tokens)
+{
+	free(tokens->token);
+	free(tokens->type);
+	free(tokens);
+	tokens = NULL;
+}
+

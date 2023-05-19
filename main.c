@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/15 22:02:22 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:54:18 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-	input = readline("minishell 🚀");
+	input = readline("minishell 🚀 ");
 	parsing(&lexer, input);
 	free(input);
+/* 	system("leaks minishell"); */
+/* 	destroy_tokens(lexer.tokens); */
 	return (0);
 }
