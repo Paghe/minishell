@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/19 19:09:32 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:39:25 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	print_token(t_tokens *tokens)
 	current = tokens->front;
 	while (current)
 	{
-		printf("%s\n", current->token);
+		printf("[%s]\t [", current->token);
+		print_token_type(current->type);
+		printf("]\n");
 		current = current->next;
 	}
 }
@@ -34,7 +36,7 @@ int	min(int a, int b)
 void	parsing(t_lexer *lexer, char *input)
 {
 	int		i;
-	char	buffer[4096];
+	char	buffer[LINEBUFFER_MAX];
 	size_t	len;
 	char	current;
 	char	next;
@@ -74,4 +76,43 @@ void	parsing(t_lexer *lexer, char *input)
 	add_token(lexer->tokens, buf_ptr, buf_ptr);
 	print_token(lexer->tokens);
 	free(line);
+}
+
+// void	type_cmp(t_token *token)
+// {
+// 	char	check_type[2];
+
+// 	printf("BEFORE: %s\n", token->type);
+// 	check_type[0] = token->type[0];
+// 	check_type[1] = token->type[1];
+// 	if (check_type[0] == '\"')
+//         token->type = "DQUOTES";
+//     else if (check_type[0] == '\'')
+//         token->type = "SQUOTES";
+//     else if (ft_strncmp(check_type, ">>", 2) == 0)
+//         token->type = "DMORE";
+//     else if (ft_strncmp(check_type, "<<", 2) == 0)
+//         token->type = "DLESS";
+//     else if (check_type[0] == '>')
+//         token->type = "MORE";
+//     else if (check_type[0] == '<')
+//         token->type = "LESS";
+//     else if (check_type[0] == '|')
+//         token->type = "OPERATOR";
+//     else
+//         token->type = "WORDS";
+// 	printf("AFTER: %s\n", token->type);
+
+// }
+
+void	def_type_tok(t_token *token)
+{
+	// t_token	*current;
+	(void)token;
+	// current = token;
+	// while (current)
+	// {
+	// 	type_cmp(current);
+	// 	current = current->next;
+	// }
 }

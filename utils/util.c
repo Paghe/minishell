@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:49:08 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/17 15:36:31 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:36:54 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	whitespace(char input)
 void	remove_token(t_token *tokens)
 {
 	free(tokens->token);
-	free(tokens->type);
 	free(tokens);
 	tokens = NULL;
 }
