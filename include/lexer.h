@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:53:59 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/19 20:48:32 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:11:14 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef enum e_token_type
 	DLESS,
 	LESS,
 	MORE,
-	PIPE
+	PIPE,
+	DOLLAR,
 }			t_token_type;
 
 typedef struct s_token

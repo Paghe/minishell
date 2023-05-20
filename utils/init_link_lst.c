@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:00:08 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/19 20:53:30 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:12:01 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	print_token_type(t_token_type type)
 		printf("DLESS");
 	else if (type == PIPE)
 		printf("PIPE");
+	else if (type == DOLLAR)
+		printf("DOLLAR");
 }
 
 t_token	*new_token(char *format)

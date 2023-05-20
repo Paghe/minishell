@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/19 20:39:25 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:59:31 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,35 @@ int	min(int a, int b)
 	return (a);
 }
 
+char	*replace_spaces(char *str)
+{
+	size_t	i;
+	size_t	j;
+	char	buffer[LINEBUFFER_MAX];
+
+	i = 0;
+	j = 0;
+	while (whitespace(str[i]))
+		i++;
+	while (i < ft_strlen(str))
+	{
+		if (str[i] == ' ')
+		{
+			while (whitespace(str[i]) && str[i] != '\0')
+				i++;
+			if (str[i] == '\0')
+				break ;
+			else
+				buffer[j++] = ' ';
+		}
+		buffer[j] = str[i];
+		i++;
+		j++;
+	}
+	buffer[j] = '\0';
+	return (ft_strdup(buffer));
+}
+
 void	parsing(t_lexer *lexer, char *input)
 {
 	int		i;
@@ -46,7 +75,7 @@ void	parsing(t_lexer *lexer, char *input)
 	int		dquote;
 
 	i = 0;
-	line = ft_strtrim(input, " \t");
+	line = replace_spaces(input);
 	len = min(ft_strlen(line), LINEBUFFER_MAX);
 	ft_memcpy(buffer, line, len);
 	buffer[len] = '\0';
@@ -76,43 +105,4 @@ void	parsing(t_lexer *lexer, char *input)
 	add_token(lexer->tokens, buf_ptr, buf_ptr);
 	print_token(lexer->tokens);
 	free(line);
-}
-
-// void	type_cmp(t_token *token)
-// {
-// 	char	check_type[2];
-
-// 	printf("BEFORE: %s\n", token->type);
-// 	check_type[0] = token->type[0];
-// 	check_type[1] = token->type[1];
-// 	if (check_type[0] == '\"')
-//         token->type = "DQUOTES";
-//     else if (check_type[0] == '\'')
-//         token->type = "SQUOTES";
-//     else if (ft_strncmp(check_type, ">>", 2) == 0)
-//         token->type = "DMORE";
-//     else if (ft_strncmp(check_type, "<<", 2) == 0)
-//         token->type = "DLESS";
-//     else if (check_type[0] == '>')
-//         token->type = "MORE";
-//     else if (check_type[0] == '<')
-//         token->type = "LESS";
-//     else if (check_type[0] == '|')
-//         token->type = "OPERATOR";
-//     else
-//         token->type = "WORDS";
-// 	printf("AFTER: %s\n", token->type);
-
-// }
-
-void	def_type_tok(t_token *token)
-{
-	// t_token	*current;
-	(void)token;
-	// current = token;
-	// while (current)
-	// {
-	// 	type_cmp(current);
-	// 	current = current->next;
-	// }
 }
