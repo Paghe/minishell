@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:53:59 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/20 17:11:14 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:06:13 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,7 @@ void		destroy_tokens(t_tokens *tokens);
 void		def_type_tok(t_token *token);
 void		print_token_type(t_token_type type);
 void		print_token(t_tokens *tokens);
+void		echo(t_tokens *tokens);
+char		*escape_quote(t_token *token);
+void		test_(t_token *token);
 #endif

@@ -6,6 +6,8 @@ SRC = main.c \
 	lexer/lexer.c	\
 	utils/init_link_lst.c \
 	utils/util.c \
+	builtin/echo.c \
+	parse/parse.c \
 
 OBJ = $(SRC:.c=.o)
 
