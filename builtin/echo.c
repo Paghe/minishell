@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:27:24 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/30 15:15:35 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:05:10 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ void	echo(t_tokens *tokens)
 	t_token	*current;
 
 	current = tokens->front;
-	test_(current);
+	no_quote(current);
 	echo_line(current);
 }

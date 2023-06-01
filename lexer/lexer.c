@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/05/30 16:31:44 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:02:30 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,6 @@ void	parsing(t_lexer *lexer, char *input)
 		i++;
 	}
 	add_token(lexer->tokens, buf_ptr, buf_ptr);
-	print_token(lexer->tokens);
+/* 	print_token(lexer->tokens); */
 	free(line);
 }
