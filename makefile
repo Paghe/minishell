@@ -8,6 +8,7 @@ SRC = main.c \
 	utils/util.c \
 	builtin/echo.c \
 	parse/parse.c \
+	builtin/cd.c \
 
 OBJ = $(SRC:.c=.o)
 
