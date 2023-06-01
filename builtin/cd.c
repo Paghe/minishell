@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 20:20:51 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/01 15:40:26 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:34:51 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ char	*get_path(t_tokens *tokens)
 
 	path = getcwd(NULL, 0);
 	tmp = ft_strjoin(path, "/");
-	dir = ft_strjoin(tmp, tokens->front->next->token);
+	if (tokens->front->token[0] == '/')
+		dir = ft_strjoin(path, dir);
+	else
+		dir = ft_strjoin(tmp, tokens->front->next->token);
 	free(path);
 	free(tmp);
 	return (dir);
@@ -72,7 +75,7 @@ void	change_dir(char **env, t_tokens *tokens)
 	int		i;
 
 	i = 0;
-	if (!ft_strncmp(tokens->front->token, "cd", 3))
+	if (!ft_strncmp(tokens->front->token, "cd", 3) && ft_strncmp(tokens->front->next->token, "..", 3))
 	{
 		change_old(env);
 		dir = get_path(tokens);
@@ -84,5 +87,15 @@ void	change_dir(char **env, t_tokens *tokens)
 		}
 		change_current_pwd(env);
 		free(dir);
+	}
+	if (!ft_strncmp(tokens->front->token, "cd", 3) && !ft_strncmp(tokens->front->next->token, "..", 3))
+	{
+		change_old(env);
+		if (chdir("..") != 0)
+		{
+			ft_putstr_fd("error\n", 2);
+			return ;
+		}
+		change_current_pwd(env);
 	}
 }
