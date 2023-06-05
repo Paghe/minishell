@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built.c                                            :+:      :+:    :+:   */
+/*   utils_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 19:15:04 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/05 20:03:33 by apaghera         ###   ########.fr       */
+/*   Created: 2023/06/05 19:40:36 by apaghera          #+#    #+#             */
+/*   Updated: 2023/06/05 20:01:11 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lexer.h"
 #include "../include/parse.h"
 
-void	built_in(t_tokens *tokens, char **env)
+int	is_symbol(t_token *token)
 {
-	echo(tokens);
-	change_dir(env, tokens);
-	get_env(tokens, env);
-	build_pwd(tokens);
+	t_token	*current;
+
+	current = token;
+	if (current->type == DQUOTE || current->type == SQUOTE || \
+			current->type == DMORE || current->type == DLESS || \
+				current->type == LESS || current->type == MORE)
+		return (1);
+	return (0);
 }

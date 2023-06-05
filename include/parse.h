@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built.c                                            :+:      :+:    :+:   */
+/*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 19:15:04 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/05 20:03:33 by apaghera         ###   ########.fr       */
+/*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
+/*   Updated: 2023/06/05 20:21:34 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lexer.h"
-#include "../include/parse.h"
+#ifndef PARSE_H
+# define PARSE_H
 
-void	built_in(t_tokens *tokens, char **env)
+# include "lexer.h"
+
+typedef struct s_data
 {
-	echo(tokens);
-	change_dir(env, tokens);
-	get_env(tokens, env);
-	build_pwd(tokens);
-}
+	char	*line;
+	char	**env;
+}	t_data;
+
+typedef struct s_cmds
+{
+	char	**cmd;
+	t_data	*data;
+}	t_cmds;
+
+
+char	*escape_quote(t_token *token);
+void	no_quote(t_token *token);
+int		is_symbol(t_token *token);
+int		chek_first_token(t_token	*token);
+#endif

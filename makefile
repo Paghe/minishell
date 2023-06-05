@@ -7,11 +7,13 @@ SRC = main.c \
 	utils/init_link_lst.c \
 	utils/util.c \
 	builtin/echo.c \
-	parse/parse.c \
 	builtin/cd.c \
 	builtin/env.c \
 	builtin/pwd.c \
 	builtin/built.c \
+	parse/parse.c	\
+	parse/grammar.c	\
+	parse/utils_parse.c \
 
 OBJ = $(SRC:.c=.o)
 

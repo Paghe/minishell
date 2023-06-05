@@ -6,10 +6,11 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:27:24 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/01 19:05:10 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/05 20:14:44 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/parse.h"
 #include "../include/lexer.h"
 
 void	echo_newline(t_token *current)

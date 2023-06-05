@@ -6,11 +6,11 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/01 19:18:40 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/05 20:22:03 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/lexer.h"
+#include "include/parse.h"
 
 void leaks(void)
 {
@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("minishell 🚀 ");
 		parsing(&lexer, input);
 		built_in(lexer.tokens, envp);
+		chek_first_token(lexer.tokens->front);
 		free(input);
 		destroy_tokens(lexer.tokens);
 	}

@@ -6,10 +6,11 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/01 19:04:45 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/05 20:17:28 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/parse.h"
 #include "../include/lexer.h"
 
 char	*escape_quote(t_token *token)
@@ -45,3 +46,5 @@ void	no_quote(t_token *token)
 	}
 	new_token = token;
 }
+
+
