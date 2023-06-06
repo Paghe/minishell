@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/05 20:21:34 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:16:42 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ typedef struct s_cmds
 char	*escape_quote(t_token *token);
 void	no_quote(t_token *token);
 int		is_symbol(t_token *token);
-int		chek_first_token(t_token	*token);
+int		check_first_token(t_token	*token);
+int		get_grammar(t_token *token);
+int		is_word(t_token *token);
 #endif

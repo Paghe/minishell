@@ -6,23 +6,22 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:34:03 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/05 20:32:01 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:22:26 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 
-
-int	chek_first_token(t_token	*token)
+int	check_first_token(t_token	*token)
 {
 	t_token	*current;
 
 	current = token;
-	if (token->type == WORD || is_symbol(token))
+	if (is_word(current) || is_symbol(current))
 		return (1);
 	else
 	{
-		printf("ERROR\n");
+		printf("ERROR1\n");
 		return (0);
 	}
 }
@@ -37,17 +36,51 @@ int	is_pipe(t_token *token)
 		if (current->next->type == WORD || is_symbol(current))
 			return (1);
 	}
+	if (is_word(current) || is_symbol(current))
+		return (1);
 	return (0);
 }
 
-void	get_grammar(t_token *token)
+int	get_symbol(t_token *token)
+{
+	t_token	*current;
+
+	current = token;
+	if (is_symbol(current))
+	{
+		if (current->next->type == WORD)
+			return (1);
+	}
+	if (is_word(current) || current->type == PIPE)
+		return (1);
+	return (0);
+}
+
+int	get_grammar(t_token *token)
 {
 	t_token	*current;
 
 	current = token;
 	check_first_token(current);
-	while (current)
+	while (current && current->next)
 	{
+		if (!get_symbol(current))
+		{
+			printf("ERROR2\n");
+			return (0);
+		}
+		if (!is_pipe(current))
+		{
+			printf("ERROR3\n");
+			return (0);
+		}
 		current = current->next;
+	}
+	if (is_word(current) || current->type == PIPE)
+		return (1);
+	else
+	{
+		printf("ERROR4\n");
+		return (0);
 	}
 }
