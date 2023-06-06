@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:34:03 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/06 15:22:26 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:49:43 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	get_grammar(t_token *token)
 		}
 		current = current->next;
 	}
-	if (is_word(current) || current->type == PIPE)
+	if (is_word(current))
 		return (1);
 	else
 	{
