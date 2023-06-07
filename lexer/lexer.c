@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/06 18:26:21 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:39:38 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,43 @@ char	*replace_spaces(char *str)
 	return (ft_strdup(buffer));
 }
 
+char	*format_line(char *line)
+{
+	char	buffer[LINEBUFFER_MAX];
+	int		i;
+	int		count;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if ((line[i] == '>' && line[i + 1] == '>')|| (line[i] == '<' && line[i + 1] == '<'))
+		{
+			buffer[count] = ' ';
+			buffer[count + 1] = format_is_symbol(line[i]);
+			buffer[count + 2] = format_is_symbol(line[i]);
+			buffer[count + 3] = ' ';
+			i++;
+			count += 4;
+		}
+		else if (line[i] == format_is_symbol(line[i]))
+		{
+			buffer[count] = ' ';
+			buffer[count + 1] = format_is_symbol(line[i]);
+			buffer[count + 2] = ' ';
+			count += 3;
+		}
+		else
+		{
+			buffer[count] = line[i];
+			count++;
+		}
+		i++;
+	}
+	buffer[count] = '\0';
+	return (ft_strdup(buffer));
+}
+
 void	parsing(t_lexer *lexer, char *input)
 {
 	int		i;
@@ -73,11 +110,15 @@ void	parsing(t_lexer *lexer, char *input)
 	char	*buf_ptr;
 	int		squote;
 	int		dquote;
+	char	*good_line;
 
 	i = 0;
 	line = replace_spaces(input);
-	len = min(ft_strlen(line), LINEBUFFER_MAX);
-	ft_memcpy(buffer, line, len);
+	good_line = format_line(line);
+	good_line = replace_spaces(good_line);
+	len = min(ft_strlen(good_line), LINEBUFFER_MAX);
+	printf("%s\n", good_line);
+	ft_memcpy(buffer, good_line, len);
 	buffer[len] = '\0';
 	lexer->tokens = create_tokens();
 	squote = 0;
@@ -85,16 +126,16 @@ void	parsing(t_lexer *lexer, char *input)
 	buf_ptr = buffer;
 	while (i < (int)len)
 	{
-		current = line[i];
+		current = good_line[i];
 		if (current == '\"' && !squote)
 			dquote ^= 1;
 		if (current == '\'' && !dquote)
 			squote ^= 1;
 		if (i <= (int)len)
-			next = line[i + 1];
+			next = good_line[i + 1];
 		else
 			i = 0;
-		if (((current == ' ' && line[i + 1] != ' ' && next) || current == '\0') && !squote && !dquote)
+		if (((current == ' ' && good_line[i + 1] != ' ' && next) || current == '\0') && !squote && !dquote)
 		{
 			buffer[i] = '\0';
 			add_token(lexer->tokens, buf_ptr, buf_ptr);
@@ -104,5 +145,6 @@ void	parsing(t_lexer *lexer, char *input)
 	}
 	add_token(lexer->tokens, buf_ptr, buf_ptr);
 	print_token(lexer->tokens);
+	free(good_line);
 	free(line);
 }

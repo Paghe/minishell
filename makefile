@@ -4,6 +4,7 @@ NAME = minishell
 
 SRC = main.c \
 	lexer/lexer.c	\
+	lexer/lex_utils.c	\
 	utils/init_link_lst.c \
 	utils/util.c \
 	builtin/echo.c \

@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:53:59 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/06 17:35:32 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:28:40 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ void		change_dir(char **env, t_tokens *tokens);
 void		get_env(t_tokens *tokens, char **env);
 void		build_pwd(t_tokens *tokens);
 void		built_in(t_tokens *tokens, char **env);
+char		format_is_symbol(char symbol);
 
 #endif
