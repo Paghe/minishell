@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   control.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 21:49:08 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/07 19:38:09 by crepou           ###   ########.fr       */
+/*   Created: 2023/06/06 20:04:10 by crepou            #+#    #+#             */
+/*   Updated: 2023/06/07 19:37:07 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/lexer.h"
+#include "../include/control.h"
 
-int	ms_whitespace(char input)
+void	clear_line(void)
 {
-	if (input >= 0 && input <= 32)
-		return (1);
-	return (0);
+	struct termios	terminal_args;
+
+	tcgetattr(1, &terminal_args);
+	terminal_args.c_lflag &= ~ECHOCTL;
+	tcsetattr(1, TCSAFLUSH, &terminal_args);
 }
 
-void	remove_token(t_token *tokens)
+void	cntr_handler(int signum)
 {
-	free(tokens->token);
-	free(tokens);
-	tokens = NULL;
+	(void)signum;
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }

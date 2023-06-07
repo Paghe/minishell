@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/07 17:39:38 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:38:09 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ char	*replace_spaces(char *str)
 
 	i = 0;
 	j = 0;
-	while (whitespace(str[i]))
+	while (ms_whitespace(str[i]))
 		i++;
 	while (i < ft_strlen(str))
 	{
 		if (str[i] == ' ')
 		{
-			while (whitespace(str[i]) && str[i] != '\0')
+			while (ms_whitespace(str[i]) && str[i] != '\0')
 				i++;
 			if (str[i] == '\0')
 				break ;

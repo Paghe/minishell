@@ -1,4 +1,4 @@
-FLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
+FLAGS = -g -Wall -Wextra -Werror -I $(shell brew --prefix readline)/include#-fsanitize=address
 
 NAME = minishell
 
@@ -15,14 +15,16 @@ SRC = main.c \
 	parse/parse.c	\
 	parse/grammar.c	\
 	parse/utils_parse.c \
+	control_commands/control.c
 
 OBJ = $(SRC:.c=.o)
 
 LIBFT = ./libft/libft.a
 
-LINKFLAGS = -lreadline
+LINKFLAGS = -lreadline -L$(shell brew --prefix readline)/lib
 
-all: $(NAME)
+all: 
+	$(MAKE) $(NAME) -j
 
 %.o: %.c
 	gcc $(FLAGS) -c $^ -o $@
