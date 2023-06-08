@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
+/*   Updated: 2023/06/08 17:03:49 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/parse.h"
 #include "include/control.h"
+#include "include/parse.h"
 
 void	leaks(void)
 {
@@ -53,7 +54,6 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input);
 		destroy_tokens(lexer.tokens);
 		free(input);
-		i = 0;
 	}
 	return (0);
 }
