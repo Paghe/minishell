@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/06 20:38:01 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:15:14 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_data
 
 typedef struct s_cmds
 {
-	char	**cmd;
+	char	**cmds;
 	t_data	*data;
 }	t_cmds;
 
@@ -34,6 +34,9 @@ int		check_first_token(t_token	*token);
 int		get_grammar(t_token *token);
 int		is_word(t_token *token);
 int		is_redirect(t_token *token);
-void	parse_tokens(t_tokens *tokens, t_cmds *cmd);
-
+void	parse_tokens(t_tokens *tokens, t_cmds **cmd);
+int		is_redirect(t_token *token);
+int		is_the_word(t_token *token);
+int		count_commands(t_tokens	*tokens);
+t_cmds	**init_list_commands(t_tokens *tokens, t_cmds **cmds);
 #endif

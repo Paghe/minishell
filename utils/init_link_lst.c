@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:00:08 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/06 18:18:31 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:54:08 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,19 @@ void	add_token(t_tokens *tokens, char *format, char *type)
 	tokens->size++;
 }
 
+void	destroy_node(t_token *token)
+{
+	if (!token)
+		return ;
+	free(token->token);
+	destroy_node(token->next);
+	free(token);
+}
+
 void	destroy_tokens(t_tokens *tokens)
 {
-	while (tokens->front)
-	{
-		remove_token(tokens->front);
-		tokens->front = tokens->front->next;
-		tokens->size--;
-	}
-	tokens->rear = NULL;
+	if (!tokens)
+		return ;
+	destroy_node(tokens->front);
 	free(tokens);
 }

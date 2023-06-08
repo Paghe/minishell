@@ -1,4 +1,4 @@
-FLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
+FLAGS = -g -Wall -Wextra -Werror  -fsanitize=address 
 
 NAME = minishell
 
@@ -15,12 +15,13 @@ SRC = main.c \
 	parse/parse.c	\
 	parse/grammar.c	\
 	parse/utils_parse.c \
+	parse/init_parse.c \
 
 OBJ = $(SRC:.c=.o)
 
 LIBFT = ./libft/libft.a
 
-LINKFLAGS = -lreadline
+LINKFLAGS = -lreadline #-L/Users/apaghera/Documents/LeakSanitizer -llsan -lc++
 
 all: $(NAME)
 

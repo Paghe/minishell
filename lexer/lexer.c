@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/07 17:39:38 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:58:05 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*replace_spaces(char *str)
 		j++;
 	}
 	buffer[j] = '\0';
+	free(str);
 	return (ft_strdup(buffer));
 }
 
@@ -117,7 +118,6 @@ void	parsing(t_lexer *lexer, char *input)
 	good_line = format_line(line);
 	good_line = replace_spaces(good_line);
 	len = min(ft_strlen(good_line), LINEBUFFER_MAX);
-	printf("%s\n", good_line);
 	ft_memcpy(buffer, good_line, len);
 	buffer[len] = '\0';
 	lexer->tokens = create_tokens();
@@ -144,7 +144,7 @@ void	parsing(t_lexer *lexer, char *input)
 		i++;
 	}
 	add_token(lexer->tokens, buf_ptr, buf_ptr);
-	print_token(lexer->tokens);
+/* 	print_token(lexer->tokens); */
 	free(good_line);
 	free(line);
 }
