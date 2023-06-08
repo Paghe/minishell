@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/08 16:44:46 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/parse.h"
+#include "include/control.h"
 
 void	leaks(void)
 {
@@ -26,9 +26,15 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 /* 	atexit(leaks); */
-	int i = 1;
-	while (i)
+/* 	while(envp[j])
 	{
+		printf("%s\n", envp[j]);
+		j++;
+	} */
+	signal(SIGINT, cntr_handler);
+	while (1)
+	{
+		clear_line();
 		input = readline("minishell 🚀 ");
 		if (input && input[0] == '\0')
 		{

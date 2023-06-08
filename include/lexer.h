@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:53:59 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/07 17:28:40 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:38:09 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_lexer
 t_tokens	*create_tokens(void);
 t_token		*new_token(char *format);
 void		add_token(t_tokens *tokens, char *format, char *type);
-int			whitespace(char input);
+int			ms_whitespace(char input);
 void		parsing(t_lexer *lexer, char *input);
 void		remove_token(t_token *tokens);
 void		destroy_tokens(t_tokens *tokens);

@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   control.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 21:49:08 by apaghera          #+#    #+#             */
+/*   Created: 2023/06/06 20:00:24 by crepou            #+#    #+#             */
+/*   Updated: 2023/06/07 19:37:30 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lexer.h"
+#ifndef CONTROL_H
+# define CONTROL_H
 
-int	ms_whitespace(char input)
-{
-	if (input >= 0 && input <= 32)
-		return (1);
-	return (0);
-}
+# include <signal.h>
+# include <termios.h>
 
-void	remove_token(t_token *tokens)
-{
-	if (!tokens)
-		return ;
-	free(tokens->token);
-	free(tokens);
-	tokens = NULL;
-}
+void		cntr_handler(int signum);
+void		clear_line(void);
+#endif
