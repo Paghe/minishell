@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/06 20:38:12 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:46:31 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,46 @@ void	no_quote(t_token *token)
 	new_token = token;
 }
 
-int	is_redirect(t_token *token)
+int	count_commands(t_tokens	*tokens)
 {
-	return (token->type == LESS || token->type == DLESS || \
-		token->type == MORE || token->type == DMORE);
-}
+	t_token	*current;
+	int		count;
 
-int	is_the_word(t_token *token)
-{
-	return (token->type == WORD || token->type == SQUOTE || \
-		token->type == DQUOTE);
-}
-
-void	parse_tokens(t_tokens *tokens, t_cmds *cmds)
-{
-	t_token	*token;
-
-	token = tokens->front;
-	while (token)
+	count = 1;
+	current = tokens->front;
+	while (current)
 	{
-		if (is_redirect(token))
+		if (current->type == PIPE)
+			count++;
+		current = current->next;
+	}
+	return (count);
+}
+
+void	parse_tokens(t_tokens *tokens, t_cmds **cmds)
+{
+	t_token	*current;
+	int		i;
+
+	current = tokens->front;
+	i = 0;
+	cmds = init_list_commands(tokens, cmds);
+	while (current)
+	{
+		if (is_redirect(current))
 		{
-			if (is_the_word(token->next))
+			printf("REDIR: %s\n", current->token);
+			if (current->next && is_the_word(current->next))
 			{
-				cmds->cmd[0] = ft_strdup(token->next->token);
-				printf("%s\n", cmds->cmd[0]);
+				cmds[i]->cmds[i] = ft_strdup(current->next->token);
+				printf("%s\n", cmds[i]->cmds[i]);
 			}
 		}
-		token = token->next;
+		current = current->next;
+		printf("%i\n", i);
+		i++;
 	}
-	free(cmds->cmd[0]);
 }
+
+
+

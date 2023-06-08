@@ -6,7 +6,6 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/07 19:36:44 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_lexer	lexer;
-/* 	t_cmds	cmds; */
+	t_cmds	*cmds;
 
 	(void)argc;
 	(void)argv;
@@ -42,18 +41,19 @@ int	main(int argc, char **argv, char **envp)
 			free(input);
 			continue ;
 		}
-		parsing(&lexer, input);
+		parsing(&lexer, ft_strdup(input));
 		built_in(lexer.tokens, envp);
 		if (!get_grammar(lexer.tokens->front))
 		{
-			free(input);
 			destroy_tokens(lexer.tokens);
+			free(input);
 			return (0);
 		}
-		/* parse_tokens(lexer.tokens, &cmds); */
+		parse_tokens(lexer.tokens, &cmds);
 		add_history(input);
-		free(input);
 		destroy_tokens(lexer.tokens);
+		free(input);
+		i = 0;
 	}
 	return (0);
 }
