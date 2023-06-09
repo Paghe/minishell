@@ -16,7 +16,8 @@ SRC = main.c \
 	parse/grammar.c	\
 	parse/utils_parse.c \
 	parse/init_parse.c \
-	control_commands/control.c
+	control_commands/control.c \
+	execution/redirection_utils.c
 
 OBJ = $(SRC:.c=.o)
 

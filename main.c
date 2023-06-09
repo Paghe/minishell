@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/08 17:03:49 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/08 22:44:15 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	t_lexer	lexer;
 	t_cmds	*cmds;
+	t_redirection	red;
+	char	*args[2] = {"-l", NULL};
+	//char	*args[] = { "/bin/ls", "-l", NULL };
+	//char *envp1[] = { NULL };
 
 	(void)argc;
 	(void)argv;
@@ -33,6 +37,14 @@ int	main(int argc, char **argv, char **envp)
 		j++;
 	} */
 	signal(SIGINT, cntr_handler);
+	//errno = 0;
+	//printf("hello %d\n", execve(args[0], args, envp1));
+	//if (errno != 0)
+	//	perror("Error!\n");
+	//printf("ls path: %s\n", get_env_path(envp, "ls"));
+	red = fill_redirection_struct("ls", "file1" , args, envp);
+	printf("My environment args: %s %s\n", red.args[0], red.args[1]);
+	//printf("is there a pth? %d\n", access("/bin/ls", X_OK));
 	while (1)
 	{
 		clear_line();
