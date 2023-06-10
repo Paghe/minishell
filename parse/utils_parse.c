@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:40:36 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/07 20:33:25 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:26:16 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,16 @@ int	is_word(t_token *token)
 	return (0);
 }
 
-int	is_redirect(t_token *token)
+int	is_input_redirect(t_token *token)
 {
-	return (token->type == LESS || token->type == DLESS || \
-		token->type == MORE || token->type == DMORE);
+	return (token->type == LESS || token->type == DLESS);
 }
+
+int	is_output_redirect(t_token *token)
+{
+	return (token->type == MORE || token->type == DMORE);
+}
+
 
 int	is_the_word(t_token *token)
 {

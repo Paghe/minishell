@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
+/*   Updated: 2023/06/10 17:40:02 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_lexer	lexer;
-	t_cmds	*cmds;
+	t_cmds	**cmds;
 
 	(void)argc;
 	(void)argv;
@@ -49,11 +50,13 @@ int	main(int argc, char **argv, char **envp)
 			free(input);
 			return (0);
 		}
-		parse_tokens(lexer.tokens, &cmds);
+		cmds = init_list_commands(lexer.tokens);
+		parse_tokens(lexer.tokens, cmds);
 		add_history(input);
+		free_parse(cmds);
 		destroy_tokens(lexer.tokens);
 		free(input);
-		i = 0;
+		return (0);
 	}
 	return (0);
 }
