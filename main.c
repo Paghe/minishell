@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/10 17:40:02 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:18:15 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	main(int argc, char **argv, char **envp)
 	//if (errno != 0)
 	//	perror("Error!\n");
 	//printf("ls path: %s\n", get_env_path(envp, "ls"));
-	red = fill_redirection_struct("ls", "file1" , args, envp);
-	printf("My environment args: %s %s\n", red.args[0], red.args[1]);
+	//red = fill_redirection_struct("ls", "file1" , args, envp);
+	//printf("My environment args: %s %s\n", red.args[0], red.args[1]);
 	//printf("is there a pth? %d\n", access("/bin/ls", X_OK));
 	while (1)
 	{
