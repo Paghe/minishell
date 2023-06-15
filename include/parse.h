@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/10 17:14:51 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:18:06 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ typedef struct s_data
 	char	**env;
 	char	*input;
 	char	*output;
+	int		fd_in;
+	int		fd_out;
 }	t_data;
 
 typedef struct s_cmds
 {
-	char	**cmds;
+	char	**cmds; 
 	t_data	data;
 }	t_cmds;
 
