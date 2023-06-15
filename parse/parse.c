@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/10 17:20:25 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/15 13:52:41 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 #include "../include/lexer.h"
+#include "../include/control.h"
 
 char	*escape_quote(t_token *token)
 {
@@ -63,7 +64,7 @@ int	count_commands(t_tokens	*tokens)
 	return (count);
 }
 
-void	parse_tokens(t_tokens *tokens, t_cmds **cmds)
+void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 {
 	t_token	*current;
 	int		i;
@@ -85,9 +86,16 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds)
 			if (current->next && is_the_word(current->next))
 			{
 				cmds[i]->data.input = ft_strdup(current->next->token);
+				cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]);
+				cmds[i]->data.fd_in = open((*red)->data.input, O_RDONLY);
+				printf("Before fd_out: %d i: %d\n", (cmds[i])->data.fd_out, i);
+				printf("Before fd_in: %d i: %d\n", (cmds[i])->data.fd_in, i);
+				input_redirection(cmds, envp);
+				printf("After fd_out: %d i: %d\n", (cmds[i])->data.fd_out, i);
+				printf("After fd_in: %d i: %d\n", (cmds[i])->data.fd_in, i);
 				// EXEC DIRECT COMMAND AND FREE
+				//free(cmds[i]->data.input);
 				current = current->next;
-				printf("INPUT %s\n", cmds[i]->data.input);
 			}
 		}
 		else if (is_output_redirect(current))
@@ -95,15 +103,22 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds)
 			if (current->next && is_the_word(current->next))
 			{
 				cmds[i]->data.output = ft_strdup(current->next->token);
+				cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]); //free
+	//			printf("fd_out: %d i: %d\n", (cmds[i])->data.fd_out, i);
+	//			printf("fd_in: %d i: %d\n", (cmds[i])->data.fd_in, i);
+	///*			printf("ENV: %s\n", cmds[i]->data.env);*/
+				cmds[i]->data.fd_out = -1;
+				output_redirection_renew(&cmds[i], envp);
 				// EXEC DIRECT COMMAND AND FREE
-				printf("OUTPUT %s\n", cmds[i]->data.output);
+				//printf("OUTPUT %s\n", cmds[i]->data.output);
+				//free(cmds[i]->data.output);
 				current = current->next;
 			}
 		}
 		else
 		{
 			cmds[i]->cmds[j] = ft_strdup(current->token);
-			printf("CMD: %s\n", cmds[i]->cmds[j]);
+/*			printf("CMD: %s\n", cmds[i]->cmds[j]);*/
 			j++;
 			cmds[i]->cmds[j] = NULL;
 		}
@@ -128,15 +143,22 @@ void	free_parse(t_cmds **cmds)
 			j++;
 		}
 		free(cmds[i]->cmds);
-		if (cmds[i]->data.input)
-			free(cmds[i]->data.input);
-		if (cmds[i]->data.output)
+	/*	if (cmds[i]->data.input)
+			free(cmds[i]->data.input);*/
+		/*if (cmds[i]->data.output)
 		{
 			printf("FREE OUTPUT %s\n", cmds[i]->data.output);
 			free(cmds[i]->data.output);		
-		}
+		}*/
 		free(cmds[i]);
 		i++;
 	}
 	free(cmds);
 }
+//cmds[0]->cmds[0] = wc
+//cmds[0]->cmds[1] = arg: -l
+//cmds[0]->cmd[2] = NULL;
+//redirect_io(t_cmds)
+//{
+//	open(data.input)
+//}

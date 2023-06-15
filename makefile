@@ -1,5 +1,5 @@
 FLAGS = -Wall -Wextra -Werror -I $(shell brew --prefix readline)/include
-# FLAGS += -g -fsanitize=address 
+#FLAGS += -g -fsanitize=address 
 
 NAME = minishell
 
@@ -18,13 +18,15 @@ SRC = main.c \
 	parse/utils_parse.c \
 	parse/init_parse.c \
 	control_commands/control.c \
-	execution/redirection_utils.c
+	execution/redirection_utils.c \
+	execution/input_redirection.c \
+	execution/output_redirection.c
 
 OBJ = $(SRC:.c=.o)
 
 LIBFT = ./libft/libft.a
 
-LINKFLAGS = -lreadline -L$(shell brew --prefix readline)/lib #-L/Users/apaghera/Documents/LeakSanitizer -llsan -lc++
+LINKFLAGS = -lreadline -L$(shell brew --prefix readline)/lib #-L/Users/crepou/Documents/LeakSanitizer -llsan -lc++
 
 all: 
 	$(MAKE) $(NAME) -j

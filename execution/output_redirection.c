@@ -6,49 +6,62 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:36:41 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/11 21:40:54 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/15 13:44:05 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 #include "../include/control.h"
 
-void	output_redirection_renew(t_redirection *red)
+void	output_redirection_renew(t_cmds **red, char **envp)
 {
+	int	pid;
 	int	fd;
 
-	while (1)
+	fd = open((*red)->data.output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		return ;
+	pid = fork();
+	if (pid == 0)
 	{
-		if (fork() != 0)
-			wait(NULL);
-		else
+		dup2(fd, STDOUT_FILENO);
+		if ((*red)->data.fd_in != -1)
 		{
-			fd = open(red->filename, O_WRONLY | O_CREAT);
-			dup2(fd, 1);
-			execve(red->envp[0], red->args, red->envp);
-			perror("error in child");
+			printf("christina\n");
+			printf("fd_out: %d\n", fd);
+			printf("fd_in: %d\n", (*red)->data.fd_in);
+			dup2((*red)->data.fd_in, STDIN_FILENO);
+			close((*red)->data.fd_in);
 		}
-		break ;
+		printf("fd_in: %d\n", (*red)->data.fd_in);
+		execve((char const *)(*red)->data.env, (*red)->cmds, envp);
 	}
-	close(fd);
+	waitpid(pid, NULL, 0);
+	(*red)->data.fd_out = fd;
 }
 
-void	output_redirection_append(t_redirection *red)
+/*void do_io()
 {
-	int	fd;
+	if  (out_put	input)
+		waitpid
+	return ;
+}*/
+//void	output_redirection_append(t_redirection *red)
+//{
+//	int	fd;
 
-	while (1)
-	{
-		if (fork() != 0)
-			wait(NULL);
-		else
-		{
-			fd = open(red->filename, O_WRONLY | O_APPEND | O_CREAT);
-			dup2(fd, 1);
-			execve(red->envp[0], red->args, red->envp);
-			perror("error in child");
-		}
-		break ;
-	}
-	close(fd);
-}
+//	while (1)
+//	{
+//		if (fork() != 0)
+//			wait(NULL);
+//		else
+//		{
+//			fd = open(red->filename, O_WRONLY | O_APPEND | O_CREAT);
+//			dup2(fd, 1);
+//			execve(red->envp[0], red->args, red->envp);
+//			perror("error in child");
+//		}
+//		break ;
+//	}
+//	close(fd);
+//}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/10 17:14:51 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:51:15 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 
 # include "lexer.h"
 
+extern char test[20];
+
 typedef struct s_data
 {
-	char	*line;
-	char	**env;
+	char	*env; 
 	char	*input;
 	char	*output;
+	int		fd_in;
+	int		fd_out;
 }	t_data;
 
 typedef struct s_cmds
@@ -35,11 +38,13 @@ int		is_symbol(t_token *token);
 int		check_first_token(t_token	*token);
 int		get_grammar(t_token *token);
 int		is_word(t_token *token);
-void	parse_tokens(t_tokens *tokens, t_cmds **cmd);
+void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp);
 int		is_input_redirect(t_token *token);
 int		is_output_redirect(t_token *token);
 int		is_the_word(t_token *token);
 int		count_commands(t_tokens	*tokens);
 t_cmds	**init_list_commands(t_tokens *tokens);
 void	free_parse(t_cmds **cmds);
+void	input_redirection(t_cmds **red, char **envp);
+void	output_redirection_renew(t_cmds **red, char **envp);
 #endif

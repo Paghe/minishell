@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:34:12 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/09 19:52:10 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/15 13:45:52 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

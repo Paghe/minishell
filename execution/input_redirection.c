@@ -6,29 +6,42 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 19:36:41 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/11 21:36:20 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/15 13:52:37 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 #include "../include/control.h"
 
-void	input_redirection(t_redirection *red)
+char test[20];
+void	input_redirection(t_cmds **red, char **envp)
 {
-	int		fd;
+	int	pid;
+	int	fd;
 
-	while (1)
+	fd = open((*red)->data.input, O_RDONLY);
+	if (fd == -1)
+		return ;
+	pid = fork();
+	//pid = fork(); //here is the problem the child process runs the code from the start
+	if (pid == 0)
 	{
-		if (fork() != 0)
-			wait(NULL);
-		else
+		dup2(fd, STDIN_FILENO);
+		printf("fd_out: %d\n", (*red)->data.fd_out);
+		printf("fd_in: %d\n", fd);
+		if ((*red)->data.fd_out != -1)
 		{
-			fd = open(red->filename, O_RDONLY);
-			dup2(fd, 0);
-			execve(red->envp[0], red->args, red->envp);
-			perror("error in child");
+			printf("HELLO\n");
+			dup2((*red)->data.fd_out, STDOUT_FILENO);
 		}
-		break ;
+		//printf(">%s\n",red->cmds[0]);
+		//printf("path: %s\n", red->data.env);
+		//char *path = ft_strjoin(red->cmds[0], "/")
+		if (execve((char const *)(*red)->data.env, (*red)->cmds, envp) == -1)
+			exit(-1);
 	}
-	close(fd);
+	waitpid(pid, NULL, 0);
+	printf("\n");	
+	(*red)->data.fd_in = fd;
+	//cntr_handler(SIGINT);
 }
