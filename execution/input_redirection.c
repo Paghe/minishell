@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 19:36:41 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/15 13:52:37 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/15 20:25:04 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	input_redirection(t_cmds **red, char **envp)
 			exit(-1);
 	}
 	waitpid(pid, NULL, 0);
-	printf("\n");	
+	printf("\n");
 	(*red)->data.fd_in = fd;
 	//cntr_handler(SIGINT);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/15 13:52:41 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/15 20:23:10 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,8 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 			{
 				cmds[i]->data.input = ft_strdup(current->next->token);
 				cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]);
-				cmds[i]->data.fd_in = open((*red)->data.input, O_RDONLY);
-				printf("Before fd_out: %d i: %d\n", (cmds[i])->data.fd_out, i);
-				printf("Before fd_in: %d i: %d\n", (cmds[i])->data.fd_in, i);
-				input_redirection(cmds, envp);
-				printf("After fd_out: %d i: %d\n", (cmds[i])->data.fd_out, i);
-				printf("After fd_in: %d i: %d\n", (cmds[i])->data.fd_in, i);
+				// cmds[i]->data.fd_in = open((*cmds)->data.input, O_RDONLY);
+				// input_redirection(cmds, envp);
 				// EXEC DIRECT COMMAND AND FREE
 				//free(cmds[i]->data.input);
 				current = current->next;
@@ -104,11 +100,8 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 			{
 				cmds[i]->data.output = ft_strdup(current->next->token);
 				cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]); //free
-	//			printf("fd_out: %d i: %d\n", (cmds[i])->data.fd_out, i);
-	//			printf("fd_in: %d i: %d\n", (cmds[i])->data.fd_in, i);
-	///*			printf("ENV: %s\n", cmds[i]->data.env);*/
-				cmds[i]->data.fd_out = -1;
-				output_redirection_renew(&cmds[i], envp);
+				// cmds[i]->data.fd_out = -1;
+				// output_redirection_renew(&cmds[i], envp);
 				// EXEC DIRECT COMMAND AND FREE
 				//printf("OUTPUT %s\n", cmds[i]->data.output);
 				//free(cmds[i]->data.output);

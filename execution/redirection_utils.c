@@ -3,21 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:19:33 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/08 22:45:43 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/15 21:01:24 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/control.h"
 #include "../include/parse.h"
 
+void	free_paths(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while(paths[i])
+	{
+		free(paths[i]);
+		i++;
+	}
+	free(paths);
+}
+
 char	*get_env_path(char **envp, char *command)
 {
 	char	*path;
+	char	*cmd_path;
 	int		i;
 	char	**paths;
+	// char	*tmp;
 
 	i = -1;
 	while (envp[++i])
@@ -26,14 +41,23 @@ char	*get_env_path(char **envp, char *command)
 			path = ft_strdup(envp[i]);
 	}
 	paths = ft_split(path + 5, ':');
+	free(path);
 	i = -1;
 	while (paths[++i])
 	{
-		paths[i] = ft_strjoin(ft_strjoin(paths[i], "/"), command);
-		if (access(paths[i], X_OK) == 0)
-			return (paths[i]);
+		cmd_path = malloc(ft_strlen(paths[i]) + ft_strlen(command) + 2);
+		strcpy(cmd_path, paths[i]); // Implement strcpy
+		strcat(cmd_path, "/");	// Implement strcat
+		strcat(cmd_path, command);
+		if (access(cmd_path, X_OK) == 0)
+		{
+			free_paths(paths); // free stuff looks above
+			return (cmd_path);
+		}
+		free(cmd_path);
 	}
-	return (NULL);
+	free_paths(paths); // miss one leaks
+	return (NULL); // this way is way faster to allocate memory 
 }
 
 t_redirection	fill_redirection_struct(char *command, char *filename, char **args, char **envp)

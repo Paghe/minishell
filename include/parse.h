@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/15 11:51:15 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/15 20:28:34 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ t_cmds	**init_list_commands(t_tokens *tokens);
 void	free_parse(t_cmds **cmds);
 void	input_redirection(t_cmds **red, char **envp);
 void	output_redirection_renew(t_cmds **red, char **envp);
+void	redirect_io(int input, int output);
 #endif

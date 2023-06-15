@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:36:41 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/15 13:44:05 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/15 20:19:23 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

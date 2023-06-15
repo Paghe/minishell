@@ -20,7 +20,8 @@ SRC = main.c \
 	control_commands/control.c \
 	execution/redirection_utils.c \
 	execution/input_redirection.c \
-	execution/output_redirection.c
+	execution/output_redirection.c \
+	parse/utlis_redir.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/15 12:58:37 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/15 21:03:18 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,35 @@ rl_gets (char *line_read)
   return (line_read);
 }
 
+void	execute_cmd(t_cmds *cmds, char **envp)
+{
+	pid_t	pid;
+
+	cmds->data.fd_in = open(cmds->data.input, O_RDONLY);
+	cmds->data.fd_out = open(cmds->data.output, O_WRONLY | O_CREAT | O_TRUNC, 0644); // opening here file doesn't matter the order
+	pid = fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
+	{
+		redirect_io(cmds->data.fd_in, cmds->data.fd_out); // dup2(input, STDIN_FILENO); // dup2(output, STDOUT_FILENO);												 // dup2(output, STDOUT_FILENO);
+		close(cmds->data.fd_in);
+		close(cmds->data.fd_out);
+		execve(cmds->data.env, cmds->cmds, envp);
+	}
+	else
+		waitpid(pid, NULL, 0);
+	return ;
+}
+
+void	execute_cmds(t_cmds **cmds, char **envp)
+{
+	while (*cmds)
+	{
+		execute_cmd(*cmds, envp); // execute multiple cmds;
+		cmds++;
+	}
+}
 
 int execute(char **envp)
 {
@@ -77,7 +106,9 @@ int execute(char **envp)
 			return (0);
 		}
 		cmds = init_list_commands(lexer.tokens);
-		parse_tokens(lexer.tokens, cmds, envp);
+		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
+		execute_cmds(cmds, envp);
+		exit(0);
 		add_history(input);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);

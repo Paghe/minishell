@@ -1,4 +1,0 @@
-christina
-fd_out: 4
-fd_in: 3
-fd_in: 3
