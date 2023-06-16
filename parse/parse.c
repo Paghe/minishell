@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/15 20:23:10 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:05:56 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 	t_token	*current;
 	int		i;
 	int		j;
+	int		fd;
 
 	current = tokens->front;
 	i = 0;
@@ -87,10 +88,6 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 			{
 				cmds[i]->data.input = ft_strdup(current->next->token);
 				cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]);
-				// cmds[i]->data.fd_in = open((*cmds)->data.input, O_RDONLY);
-				// input_redirection(cmds, envp);
-				// EXEC DIRECT COMMAND AND FREE
-				//free(cmds[i]->data.input);
 				current = current->next;
 			}
 		}
@@ -100,11 +97,8 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 			{
 				cmds[i]->data.output = ft_strdup(current->next->token);
 				cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]); //free
-				// cmds[i]->data.fd_out = -1;
-				// output_redirection_renew(&cmds[i], envp);
-				// EXEC DIRECT COMMAND AND FREE
-				//printf("OUTPUT %s\n", cmds[i]->data.output);
-				//free(cmds[i]->data.output);
+				fd = open(current->next->token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				close(fd);
 				current = current->next;
 			}
 		}
@@ -130,19 +124,13 @@ void	free_parse(t_cmds **cmds)
 	while (cmds[i])
 	{
 		j = 0;
+		free(cmds[i]->data.env);
 		while (cmds[i]->cmds[j])
 		{
 			free(cmds[i]->cmds[j]);
 			j++;
 		}
 		free(cmds[i]->cmds);
-	/*	if (cmds[i]->data.input)
-			free(cmds[i]->data.input);*/
-		/*if (cmds[i]->data.output)
-		{
-			printf("FREE OUTPUT %s\n", cmds[i]->data.output);
-			free(cmds[i]->data.output);		
-		}*/
 		free(cmds[i]);
 		i++;
 	}

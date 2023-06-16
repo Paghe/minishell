@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/15 21:03:18 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:06:52 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ void	execute_cmds(t_cmds **cmds, char **envp)
 	}
 }
 
-int execute(char **envp)
+int	execute(char **envp)
 {
-	int exec_code;
+	int		exec_code;
 	t_lexer	lexer;
 	t_cmds	**cmds;
 	char	*input;
-	
+
 	signal(SIGINT, cntr_handler);
 	cmds = NULL;
 	exec_code = 0;
@@ -108,7 +108,8 @@ int execute(char **envp)
 		cmds = init_list_commands(lexer.tokens);
 		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
 		execute_cmds(cmds, envp);
-		exit(0);
+/* 		exit(0); */
+		// system("leaks minishell");
 		add_history(input);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);
