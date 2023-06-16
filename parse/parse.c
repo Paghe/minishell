@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/16 15:27:16 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:38:52 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 		{
 			if (current->next && is_the_word(current->next))
 			{
+				if (cmds[i]->data.input)
+					free(cmds[i]->data.input);
 				if (cmds[i]->data.env)
 					free(cmds[i]->data.env);
 				cmds[i]->data.input = ft_strdup(current->next->token);
@@ -97,6 +99,8 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 		{
 			if (current->next && is_the_word(current->next))
 			{
+				if (cmds[i]->data.output)
+					free(cmds[i]->data.output);
 				if (cmds[i]->data.env)
 					free(cmds[i]->data.env);
 				cmds[i]->data.output = ft_strdup(current->next->token);
@@ -137,9 +141,7 @@ void	free_parse(t_cmds **cmds)
 		if (cmds[i]->data.input)
 			free(cmds[i]->data.input);
 		if (cmds[i]->data.output)
-		{
-			free(cmds[i]->data.output);		
-		}
+			free(cmds[i]->data.output);
 		free(cmds[i]);
 		i++;
 	}
