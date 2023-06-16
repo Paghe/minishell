@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/16 15:06:52 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:31:16 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,15 @@ void	execute_cmd(t_cmds *cmds, char **envp)
 
 void	execute_cmds(t_cmds **cmds, char **envp)
 {
-	while (*cmds)
+	int	i;
+
+	i = 0;
+	while (cmds[i])
 	{
-		execute_cmd(*cmds, envp); // execute multiple cmds;
-		cmds++;
+		execute_cmd(cmds[i], envp); // execute multiple cmds;
+		if (cmds[i]->data.env)
+			free(cmds[i]->data.env);
+		i++;
 	}
 }
 
@@ -102,17 +107,16 @@ int	execute(char **envp)
 		if (!get_grammar(lexer.tokens->front))
 		{
 			destroy_tokens(lexer.tokens);
-			//free(input);
 			return (0);
 		}
 		cmds = init_list_commands(lexer.tokens);
 		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
 		execute_cmds(cmds, envp);
-/* 		exit(0); */
-		// system("leaks minishell");
+		/* system("leaks minishell"); */
 		add_history(input);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);
+		exit(0);
 	}
 	return (exec_code);
 }
