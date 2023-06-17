@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 20:00:24 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/14 02:16:06 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/17 18:14:26 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void		clear_line(void);
 char		*get_env_path(char **envp, char *command);
 t_redirection	fill_redirection_struct(char *command, char *filename, char **args, char **envp);
 void	output_redirection_append(t_redirection *red);
-void	pipe_proccess(char *args[], int num, t_redirection *red);
 void	set_signals_noninteractive(void);
 void	set_signals_interactive(void);
 void	ignore_sigquit(void);

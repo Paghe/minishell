@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 19:36:41 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/15 20:25:04 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/17 18:01:23 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,8 @@ void	input_redirection(t_cmds **red, char **envp)
 	if (pid == 0)
 	{
 		dup2(fd, STDIN_FILENO);
-		printf("fd_out: %d\n", (*red)->data.fd_out);
-		printf("fd_in: %d\n", fd);
 		if ((*red)->data.fd_out != -1)
-		{
-			printf("HELLO\n");
 			dup2((*red)->data.fd_out, STDOUT_FILENO);
-		}
 		//printf(">%s\n",red->cmds[0]);
 		//printf("path: %s\n", red->data.env);
 		//char *path = ft_strjoin(red->cmds[0], "/")

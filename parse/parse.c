@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/17 17:25:54 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:50:38 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 	{
 		if (current->type == PIPE)
 		{
+			init_pipes(cmds, i);
 			i++;
 			current = current->next;
 			j = 0;

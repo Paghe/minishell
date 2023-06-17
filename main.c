@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/17 17:25:39 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:52:46 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	execute_cmds(t_cmds **cmds, char **envp)
 	i = 0;
 	while (cmds[i])
 	{
-		execute_cmd(cmds[i], envp); // execute multiple cmds;
+		pipe_proccess(&cmds[i], envp, cmds);
+		//execute_cmd(cmds[i], envp); // execute multiple cmds;
 		if (cmds[i]->data.env)
 			free(cmds[i]->data.env);
 		i++;
@@ -114,7 +115,7 @@ int	execute(char **envp)
 		execute_cmds(cmds, envp);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);
-		exit(0);
+		//exit(0);
 	}
 	return (exec_code);
 }
@@ -122,7 +123,7 @@ int	execute(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	int	code;
-
+	errno = 0;
 	(void)argc;
 	(void)argv;
 	if ((code = execute(envp)) == -1)
