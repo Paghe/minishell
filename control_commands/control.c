@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 20:04:10 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/14 02:13:11 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/17 20:55:41 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	cntr_handler(int signum)
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	slash_handler(int signum)
+{
+	(void)signum;
 	rl_redisplay();
 }
 

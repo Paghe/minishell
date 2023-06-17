@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/17 19:52:46 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/17 20:47:44 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,6 @@
 void	leaks(void)
 {
 	system("leaks minishell");
-}
-
-
-
-char *
-rl_gets (char *line_read)
-{
-  /* If the buffer has already been allocated, return the memory
-     to the free pool. */
-  if (line_read)
-    {
-      free (line_read);
-      line_read = (char *)NULL;
-    }
-
-  /* Get a line from the user. */
-  line_read = readline ("minishell 🚀 ");
-
-  /* If the line has any text in it, save it on the history. */
-  if (line_read && *line_read)
-    add_history (line_read);
-
-  return (line_read);
 }
 
 void	execute_cmd(t_cmds *cmds, char **envp)
@@ -85,12 +62,13 @@ int	execute(char **envp)
 	char	*input;
 
 	signal(SIGINT, cntr_handler);
+	signal(SIGQUIT, slash_handler);
 	cmds = NULL;
 	exec_code = 0;
 	while (1)
 	{
 		clear_line();
-		input = readline("minishell: ");
+		input = readline("minishell 🚀 ");
 		if (!input)
 		{
 			exec_code = -1;

@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 20:00:24 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/17 18:14:26 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/17 20:47:14 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,5 @@ void	output_redirection_append(t_redirection *red);
 void	set_signals_noninteractive(void);
 void	set_signals_interactive(void);
 void	ignore_sigquit(void);
+void	slash_handler(int signum);
 #endif
