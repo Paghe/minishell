@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:34:12 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/15 13:45:52 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/17 16:23:43 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_cmds	**init_list_commands(t_tokens *tokens)
 	int		total_commands;
 	int		len;
 	t_token	*current;
-	t_cmds 	**cmds;
+	t_cmds	**cmds;
 
 	i = 0;
 	total_commands = count_commands(tokens);
@@ -36,6 +36,9 @@ t_cmds	**init_list_commands(t_tokens *tokens)
 		cmds[i]->cmds = malloc(sizeof(char *) * (len + 1));
 		if (cmds[i]->cmds)
 			cmds[i]->cmds[len] = NULL;
+		cmds[i]->data.input = NULL;
+		cmds[i]->data.output = NULL;
+		cmds[i]->data.env = NULL;
 		if (current)
 			current = current->next;
 		i++;

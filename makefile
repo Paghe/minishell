@@ -21,7 +21,7 @@ SRC = main.c \
 	execution/redirection_utils.c \
 	execution/input_redirection.c \
 	execution/output_redirection.c \
-	parse/utlis_redir.c
+	parse/utils_redir.c
 
 OBJ = $(SRC:.c=.o)
 

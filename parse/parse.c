@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/16 15:27:16 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/17 16:48:51 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,9 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 		{
 			if (current->next && is_the_word(current->next))
 			{
-				if (cmds[i]->data.env)
-					free(cmds[i]->data.env);
+				if (cmds[i]->data.input)
+					free(cmds[i]->data.input);
 				cmds[i]->data.input = ft_strdup(current->next->token);
-				cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]);
 				current = current->next;
 			}
 		}
@@ -97,10 +96,9 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 		{
 			if (current->next && is_the_word(current->next))
 			{
-				if (cmds[i]->data.env)
-					free(cmds[i]->data.env);
+				if (cmds[i]->data.output)
+					free(cmds[i]->data.output);
 				cmds[i]->data.output = ft_strdup(current->next->token);
-				cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]); //free
 				fd = open(current->next->token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 				close(fd);
 				current = current->next;
@@ -108,8 +106,10 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 		}
 		else
 		{
+			if (cmds[i]->data.env)
+				free(cmds[i]->data.env);
 			cmds[i]->cmds[j] = ft_strdup(current->token);
-/*			printf("CMD: %s\n", cmds[i]->cmds[j]);*/
+			cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]);
 			j++;
 			cmds[i]->cmds[j] = NULL;
 		}
@@ -137,19 +137,9 @@ void	free_parse(t_cmds **cmds)
 		if (cmds[i]->data.input)
 			free(cmds[i]->data.input);
 		if (cmds[i]->data.output)
-		{
-			free(cmds[i]->data.output);		
-		}
+			free(cmds[i]->data.output);
 		free(cmds[i]);
 		i++;
 	}
 	free(cmds);
 }
-
-//cmds[0]->cmds[0] = wc
-//cmds[0]->cmds[1] = arg: -l
-//cmds[0]->cmd[2] = NULL;
-//redirect_io(t_cmds)
-//{
-//	open(data.input)
-//}

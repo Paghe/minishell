@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:19:33 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/15 21:01:24 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:37:21 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_paths(char **paths)
 	int	i;
 
 	i = 0;
-	while(paths[i])
+	while (paths[i])
 	{
 		free(paths[i]);
 		i++;
@@ -32,7 +32,6 @@ char	*get_env_path(char **envp, char *command)
 	char	*cmd_path;
 	int		i;
 	char	**paths;
-	// char	*tmp;
 
 	i = -1;
 	while (envp[++i])
@@ -56,14 +55,14 @@ char	*get_env_path(char **envp, char *command)
 		}
 		free(cmd_path);
 	}
-	free_paths(paths); // miss one leaks
+	free_paths(paths);
 	return (NULL); // this way is way faster to allocate memory 
 }
 
 t_redirection	fill_redirection_struct(char *command, char *filename, char **args, char **envp)
 {
-	t_redirection	red;
-	int				i;
+	t_redirection		red;
+	int					i;
 	const char			*env[2];
 
 	red.filename = filename;

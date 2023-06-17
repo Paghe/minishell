@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:34:03 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/06 17:49:43 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:08:43 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ int	check_first_token(t_token	*token)
 	current = token;
 	if (is_word(current) || is_symbol(current))
 		return (1);
-	else
-	{
-		printf("ERROR1\n");
+	if (begin_with_pipes(current))
 		return (0);
-	}
+	return (0);
 }
 
 int	is_pipe(t_token *token)
@@ -61,13 +59,14 @@ int	get_grammar(t_token *token)
 	t_token	*current;
 
 	current = token;
-	check_first_token(current);
+	if (!check_first_token(current))
+		return (0);
 	while (current && current->next)
 	{
 		if (!get_symbol(current))
 		{
-			printf("ERROR2\n");
-			return (0);
+			if (begin_with_pipes(current))
+				return (0);
 		}
 		if (!is_pipe(current))
 		{
@@ -80,7 +79,13 @@ int	get_grammar(t_token *token)
 		return (1);
 	else
 	{
-		printf("ERROR4\n");
+	/* 	if (tokens->size == 1)
+		{
+			ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+			return (0);
+		}
+		else */
+			printf("ERROR4\n");
 		return (0);
 	}
 }

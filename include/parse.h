@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/15 20:28:34 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:07:17 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 
 # include "lexer.h"
 
-extern char test[20];
-
 typedef struct s_data
 {
-	char	*env; 
+	char	*env;
 	char	*input;
 	char	*output;
 	int		fd_in;
@@ -48,4 +46,5 @@ void	free_parse(t_cmds **cmds);
 void	input_redirection(t_cmds **red, char **envp);
 void	output_redirection_renew(t_cmds **red, char **envp);
 void	redirect_io(int input, int output);
+int		begin_with_pipes(t_token *token);
 #endif
