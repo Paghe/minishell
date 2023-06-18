@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 16:03:00 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 22:19:20 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	execute_cmds(t_cmds **cmds, char **envp)
 	char	*value;
 
 	i = 0;
+	//j = 0;
 	var_name = NULL;
 	value = NULL;
 	while (cmds[i])
@@ -64,6 +65,11 @@ void	execute_cmds(t_cmds **cmds, char **envp)
 			free(cmds[i]->data.env);
 		i++;
 	}
+	//while (j != i - 1) //save status of last
+	//{
+	//	waitpid(struct pid, NULL, 0);
+	//	j++;
+	//}
 }
 
 int	execute(char **envp)
@@ -102,7 +108,7 @@ int	execute(char **envp)
 		}
 		cmds = init_list_commands(lexer.tokens);
 		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
-		replace_env_vars(cmds);
+		//replace_env_vars(cmds);
 		execute_cmds(cmds, envp);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);

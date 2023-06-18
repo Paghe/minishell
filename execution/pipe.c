@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:49:01 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/18 13:03:45 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 22:18:27 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,6 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all)
 	}
 	if (pid == 0)
 	{
-		//printf("pid>> %d\n",getpid());
-		//printf("pipe in %i  pipe out %i\n",(*red)->data.pipe_in,(*red)->data.pipe_out);
-		//printf("fd in: %i\n", (*red)->data.fd_in);
-		//printf("fd out: %i\n", (*red)->data.fd_out);
-		//printf("input: %s\n", (*red)->data.input);
-		//printf("output: %s\n", (*red)->data.output);
 		if ((*red)->data.pipe_in != -1)
 			dup2((*red)->data.pipe_in, READ_END);
 		if ((*red)->data.pipe_out != -1)
@@ -77,6 +71,7 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all)
 			close((*red)->data.fd_out);
 		}
 		//while(1);
+		(*red)->cmds = escape_quotes_cmds((*red)->cmds);
 		if (ft_strncmp((*red)->cmds[0], "./", 2) == 0)
 		{
 			if (execve((*red)->cmds[0], (*red)->cmds, envp) == -1)
@@ -85,7 +80,10 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all)
 		else
 		{
 			if (execve((char const *)(*red)->data.env, (*red)->cmds, envp) == -1)
+			{
+				perror("execv");
 				exit(-1);
+			}
 		}
 	}
 		if ((*red)->data.pipe_in != -1)
