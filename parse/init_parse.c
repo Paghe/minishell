@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:34:12 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/17 17:51:35 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 11:20:41 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_cmds	**init_list_commands(t_tokens *tokens)
 		cmds[i]->data.env = NULL;
 		cmds[i]->data.pipe_in = -1;
 		cmds[i]->data.pipe_out = -1;
+		cmds[i]->data.fd_in = -1;
+		cmds[i]->data.fd_out = -1;
 		if (current)
 			current = current->next;
 		i++;

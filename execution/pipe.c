@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:49:01 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/17 19:52:09 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 11:40:52 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	close_all(t_cmds **cmds)
 			close(cmds[i]->data.pipe_in);
 		if (cmds[i]->data.pipe_out != -1)
 			close(cmds[i]->data.pipe_out);
+		if (cmds[i]->data.fd_in != -1)
+			printf("fd in: %i\n", cmds[i]->data.fd_in);
+		if (cmds[i]->data.fd_out != -1)
+			printf("fd out: %i\n", cmds[i]->data.fd_out);
 		i++;
 	}
 }
@@ -55,11 +59,23 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all)
 	{
 		//printf("pid>> %d\n",getpid());
 		//printf("pipe in %i  pipe out %i\n",(*red)->data.pipe_in,(*red)->data.pipe_out);
+		//printf("fd in: %i\n", (*red)->data.fd_in);
+		//printf("fd out: %i\n", (*red)->data.fd_out);
+		//printf("input: %s\n", (*red)->data.input);
+		//printf("output: %s\n", (*red)->data.output);
 		if ((*red)->data.pipe_in != -1)
 			dup2((*red)->data.pipe_in, READ_END);
 		if ((*red)->data.pipe_out != -1)
 			dup2((*red)->data.pipe_out, WRITE_END);
 		close_all(all);
+		if ((*red)->data.input || (*red)->data.output)
+		{
+			(*red)->data.fd_in = open((*red)->data.input, O_RDONLY);
+			(*red)->data.fd_out = open((*red)->data.output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			redirect_io((*red)->data.fd_in, (*red)->data.fd_out);
+			close((*red)->data.fd_in);
+			close((*red)->data.fd_out);
+		}
 		//while(1);
 		if (execve((char const *)(*red)->data.env, (*red)->cmds, envp) == -1)
 			exit(-1);
