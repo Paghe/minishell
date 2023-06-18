@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 20:04:10 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/17 20:55:41 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 12:12:56 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	clear_line(void)
 
 void	cntr_handler(int signum)
 {
-	(void)signum;
-
-	write(1, "\n", 1);
+	slash_handler(signum);
+	if (signum == SIGINT)
+		write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -34,8 +34,12 @@ void	cntr_handler(int signum)
 
 void	slash_handler(int signum)
 {
+	struct sigaction	sig;
+
 	(void)signum;
-	rl_redisplay();
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sig, NULL);
 }
 
 void	signal_reset_prompt(int signo)

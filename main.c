@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 11:29:54 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 12:09:29 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	execute(char **envp)
 	char	*input;
 
 	signal(SIGINT, cntr_handler);
-	signal(SIGQUIT, slash_handler);
+	signal(SIGQUIT, cntr_handler);
 	cmds = NULL;
 	exec_code = 0;
 	while (1)
