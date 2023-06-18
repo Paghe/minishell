@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:59:13 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/18 15:42:47 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 16:27:57 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,22 @@ char	*get_env_var(char *var_name)
 		return (value);
 	value = "";
 	return (value);
+}
+
+int	count_dollars(char *word)
+{
+	int	i;
+
+	i = 0;
+	if (!word)
+		return (0);
+	while (*word)
+	{
+		if (*word == '$')
+			i++;
+		else
+			return (i);
+		word++;
+	}
+	return (i);
 }

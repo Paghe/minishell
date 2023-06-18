@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 16:02:19 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 17:33:36 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	replace_env_vars(t_cmds **cmds)
 	int		j;
 	char	*arg;
 	char	*value;
+	int		dollars;
 	
 	i = 0;
 	j = 0;
@@ -133,11 +134,17 @@ void	replace_env_vars(t_cmds **cmds)
 		while(cmds[i]->cmds[j])
 		{
 			arg = cmds[i]->cmds[j];
-			if (ft_strncmp(arg, "$", 1) == 0)
+			dollars = count_dollars(arg);
+			if ((arg = ft_strrchr(arg, '$')) && dollars % 2 != 0)
 			{
 				value = get_env_var(arg + 1);
+				arg = (char *)malloc(sizeof(char) * (dollars + 1));
+				ft_strlcat(arg, cmds[i]->cmds[j], dollars);
+				value = ft_strjoin(arg, value);
+				free(arg);
 				free(cmds[i]->cmds[j]);
 				cmds[i]->cmds[j] = ft_strdup(value);
+				free(value);
 			}
 			j++;
 		}

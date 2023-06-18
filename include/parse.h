@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 16:02:42 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 16:28:30 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all);
 int		is_env_var(char *word, char	**var_name, char **value);
 char	*get_env_var(char *var_name);
 void	replace_env_vars(t_cmds **cmds);
+int		count_dollars(char *word);
 #endif
