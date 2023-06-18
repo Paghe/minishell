@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:49:01 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/18 11:40:52 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 13:03:45 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,16 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all)
 			close((*red)->data.fd_out);
 		}
 		//while(1);
-		if (execve((char const *)(*red)->data.env, (*red)->cmds, envp) == -1)
-			exit(-1);
+		if (ft_strncmp((*red)->cmds[0], "./", 2) == 0)
+		{
+			if (execve((*red)->cmds[0], (*red)->cmds, envp) == -1)
+				exit(-1);
+		}
+		else
+		{
+			if (execve((char const *)(*red)->data.env, (*red)->cmds, envp) == -1)
+				exit(-1);
+		}
 	}
 		if ((*red)->data.pipe_in != -1)
 			close((*red)->data.pipe_in);
