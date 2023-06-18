@@ -22,7 +22,8 @@ SRC = main.c \
 	execution/input_redirection.c \
 	execution/output_redirection.c \
 	parse/utils_redir.c \
-	execution/pipe.c
+	execution/pipe.c \
+	parse/environment_vars.c
 
 OBJ = $(SRC:.c=.o)
 

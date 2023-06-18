@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 12:09:29 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 15:18:03 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,24 @@ void	execute_cmd(t_cmds *cmds, char **envp)
 
 void	execute_cmds(t_cmds **cmds, char **envp)
 {
-	int	i;
+	int		i;
+	char	*var_name;
+	char	*value;
 
 	i = 0;
+	var_name = NULL;
+	value = NULL;
 	while (cmds[i])
 	{
-		pipe_proccess(&cmds[i], envp, cmds);
+		if (is_env_var(cmds[i]->cmds[0], &var_name, &value))
+		{
+			if (setenv(var_name, value, 1) == -1)
+				perror("setenv");
+			free(var_name);
+			free(value);
+		}
+		else
+			pipe_proccess(&cmds[i], envp, cmds);
 		//execute_cmd(cmds[i], envp); // execute multiple cmds;
 		if (cmds[i]->data.env)
 			free(cmds[i]->data.env);
@@ -82,7 +94,7 @@ int	execute(char **envp)
 		add_history(input);
 		parsing(&lexer, ft_strdup(input));
 		free(input);
-		built_in(lexer.tokens, envp);
+		//built_in(lexer.tokens, envp);
 		if (!get_grammar(lexer.tokens->front))
 		{
 			destroy_tokens(lexer.tokens);

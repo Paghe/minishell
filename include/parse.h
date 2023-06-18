@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/17 19:20:02 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 15:09:31 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ typedef struct s_data
 	char	*output;
 	int		fd_in;
 	int		fd_out;
-	int		pipe_in;// left pipe // -1
-	int		pipe_out;// right pipe// -1
+	int		pipe_in;
+	int		pipe_out;
 }	t_data;
 
 typedef struct s_cmds
@@ -55,4 +55,5 @@ int		begin_with_pipes(t_token *token);
 int		init_pipes(t_cmds **cmds, int index);
 void	close_all(t_cmds **cmds);
 void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all);
+int		is_env_var(char *word, char	**var_name, char **value);
 #endif

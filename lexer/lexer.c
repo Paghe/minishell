@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/16 19:57:38 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:10:27 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	parsing(t_lexer *lexer, char *input)
 		i++;
 	}
 	add_token(lexer->tokens, buf_ptr, buf_ptr);
-/* 	print_token(lexer->tokens); */
+	//print_token(lexer->tokens);
 	free(good_line);
 	free(line);
 }

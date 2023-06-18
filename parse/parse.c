@@ -6,12 +6,11 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/17 17:50:38 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 15:15:43 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
-#include "../include/lexer.h"
 #include "../include/control.h"
 
 char	*escape_quote(t_token *token)
@@ -76,6 +75,7 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 	j = 0;
 	while (current)
 	{
+		//printf("token: %s type %i is env var: %i\n", current->token, current->type, is_env_var(current->token, var_name, value));
 		if (current->type == PIPE)
 		{
 			init_pipes(cmds, i);
