@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 15:09:31 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 15:42:56 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ int		init_pipes(t_cmds **cmds, int index);
 void	close_all(t_cmds **cmds);
 void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all);
 int		is_env_var(char *word, char	**var_name, char **value);
+char	*get_env_var(char *var_name);
 #endif
