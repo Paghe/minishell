@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 15:46:30 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 16:03:00 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	execute(char **envp)
 		}
 		cmds = init_list_commands(lexer.tokens);
 		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
+		replace_env_vars(cmds);
 		execute_cmds(cmds, envp);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);

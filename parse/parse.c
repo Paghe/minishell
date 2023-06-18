@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 15:15:43 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/18 16:02:19 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,32 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 		}
 		if (current)
 			current = current->next;
+	}
+}
+
+void	replace_env_vars(t_cmds **cmds)
+{
+	int		i;
+	int		j;
+	char	*arg;
+	char	*value;
+	
+	i = 0;
+	j = 0;
+	while (cmds[i])
+	{
+		while(cmds[i]->cmds[j])
+		{
+			arg = cmds[i]->cmds[j];
+			if (ft_strncmp(arg, "$", 1) == 0)
+			{
+				value = get_env_var(arg + 1);
+				free(cmds[i]->cmds[j]);
+				cmds[i]->cmds[j] = ft_strdup(value);
+			}
+			j++;
+		}
+		i++;
 	}
 }
 
