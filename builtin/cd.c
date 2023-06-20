@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 20:20:51 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/01 17:34:51 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:06:18 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	change_current_pwd(char **env)
 	free(current);
 }
 
-void	change_dir(char **env, t_tokens *tokens)
+int	change_dir(char **env, t_tokens *tokens)
 {
 	char	*dir;
 	int		i;
@@ -83,7 +83,7 @@ void	change_dir(char **env, t_tokens *tokens)
 		{
 			ft_putstr_fd("error\n", 2);
 			free(dir);
-			return ;
+			return (0);
 		}
 		change_current_pwd(env);
 		free(dir);
@@ -94,8 +94,9 @@ void	change_dir(char **env, t_tokens *tokens)
 		if (chdir("..") != 0)
 		{
 			ft_putstr_fd("error\n", 2);
-			return ;
+			return (0);
 		}
 		change_current_pwd(env);
 	}
+	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:47:20 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 22:19:06 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/19 16:59:15 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	redirect_io(int input, int output)
 	if (output)
 		dup2(output, STDOUT_FILENO);
 }
+
 char	**escape_quotes_cmds(char **cmds)
 {
-	int	i;
+	int		i;
 	char	*trimed;
 
 	i = 0;
@@ -37,7 +38,7 @@ char	**escape_quotes_cmds(char **cmds)
 		}
 		if (ft_strncmp(cmds[i], "\'", 1) == 0)
 		{
-			trimed = ft_strtrim(cmds[i], "\'");	
+			trimed = ft_strtrim(cmds[i], "\'");
 			free(cmds[i]);
 			cmds[i] = ft_strdup(trimed);
 			free(trimed);
@@ -46,5 +47,3 @@ char	**escape_quotes_cmds(char **cmds)
 	}
 	return (cmds);
 }
-
-

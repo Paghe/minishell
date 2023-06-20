@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 13:15:06 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/20 19:42:09 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,25 @@ char	*escape_quote(t_token *token)
 
 	i = 0;
 	j = 0;
-	if (token->token[i] == '\"' || token->token[i] == '\'')
+	while (token->token[i])
+	{
+		if (token->token[i] != '\"' && token->token[i] != '\'')
+			j++;
 		i++;
-	j = i;
-	while (token->token[i] && \
-		(token->token[i] != '\'' && token->token[i] != '\"'))
+	}
+	i = 0;
+	new_token = malloc(sizeof(char) * (j + 1));
+	j = 0;
+	while (token->token[i])
+	{
+		if (token->token[i] && (token->token[i] != '\"' && token->token[i] != '\''))
+		{
+			new_token[j] = token->token[i];
+			j++;
+		}
 		i++;
-	new_token = ft_substr(token->token, j, i - j);
+	}
+	new_token[j] = '\0';
 	return (new_token);
 }
 
@@ -41,7 +53,7 @@ void	no_quote(t_token *token)
 	{
 		tmp = escape_quote(new_token);
 		free(new_token->token);
-		new_token->token = tmp;
+		new_token->token = ft_strdup(tmp);
 		new_token = new_token->next;
 	}
 	new_token = token;

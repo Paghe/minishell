@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 13:13:15 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/20 19:43:16 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*escape_quote(t_token *token);
 void	no_quote(t_token *token);
 int		is_symbol(t_token *token);
 int		check_first_token(t_token	*token);
-int		get_grammar(t_token *token);
+int		get_grammar(t_tokens *tokens);
 int		is_word(t_token *token);
 void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp);
 int		is_input_redirect(t_token *token);

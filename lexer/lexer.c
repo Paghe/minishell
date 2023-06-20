@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 22:15:16 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/20 16:09:52 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,29 @@ int	min(int a, int b)
 	return (a);
 }
 
-char	*replace_spaces(char *str)
+/* char	*replace_spaces(char *str)
 {
 	size_t	i;
 	size_t	j;
 	char	buffer[LINEBUFFER_MAX];
+	int		squote;
+	int		dquote;
 
 	i = 0;
 	j = 0;
+	squote = 0;
+	dquote = 0;
 	while (ms_whitespace(str[i]))
 		i++;
 	while (i < ft_strlen(str))
 	{
-		if (str[i] == ' ')
+		if (str[i] == '\"' && !squote)
+			dquote ^= 1;
+		if (str[i] == '\'' && !dquote)
+			squote ^= 1;
+		if (str[i] == ' ' && (!squote && !dquote))
 		{
+			printf("%c", buffer[j]);
 			while (ms_whitespace(str[i]) && str[i] != '\0')
 				i++;
 			if (str[i] == '\0')
@@ -57,6 +66,40 @@ char	*replace_spaces(char *str)
 		buffer[j] = str[i];
 		i++;
 		j++;
+	}
+	buffer[j] = '\0';
+	free(str);
+	return (ft_strdup(buffer));
+} */
+
+char	*replace_spaces(char *str)
+{
+	size_t	i;
+	size_t	j;
+	char	buffer[LINEBUFFER_MAX];
+	int		squote;
+	int		dquote;
+
+	i = 0;
+	j = 0;
+	squote = 0;
+	dquote = 0;
+	while (ms_whitespace(str[i]))
+		i++;
+	while (i < ft_strlen(str))
+	{
+		if (str[i] == '\"' && !squote)
+			dquote ^= 1;
+		if (str[i] == '\'' && !dquote)
+			squote ^= 1;
+		if ((str[i] == ' ' || str[i] == '\t') && (!squote && !dquote))
+		{
+			if (j > 0 && buffer[j - 1] != ' ' && buffer[j - 1] != '\t')
+				buffer[j++] = ' ';
+		}
+		else
+			buffer[j++] = str[i];
+		i++;
 	}
 	buffer[j] = '\0';
 	free(str);
@@ -144,7 +187,7 @@ void	parsing(t_lexer *lexer, char *input)
 		i++;
 	}
 	add_token(lexer->tokens, buf_ptr, buf_ptr);
-	//print_token(lexer->tokens);
+/* 	print_token(lexer->tokens); */
 	free(good_line);
 	free(line);
 }

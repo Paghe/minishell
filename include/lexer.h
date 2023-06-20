@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 20:53:59 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/16 19:12:44 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:16:42 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ void		destroy_tokens(t_tokens *tokens);
 void		def_type_tok(t_token *token);
 void		print_token_type(t_token_type type);
 void		print_token(t_tokens *tokens);
-void		echo(t_tokens *tokens);
-void		change_dir(char **env, t_tokens *tokens);
-void		get_env(t_tokens *tokens, char **env);
-void		build_pwd(t_tokens *tokens);
-void		built_in(t_tokens *tokens, char **env);
+int			echo(t_tokens *tokens);
+int			change_dir(char **env, t_tokens *tokens);
+int			get_env(t_tokens *tokens, char **env);
+int			build_pwd(t_tokens *tokens);
+int			built_in(t_tokens *tokens, char **env);
 char		format_is_symbol(char symbol);
 
 #endif

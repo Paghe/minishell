@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 22:19:33 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/16 16:37:21 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/19 18:15:55 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*get_env_path(char **envp, char *command)
 	char	*cmd_path;
 	int		i;
 	char	**paths;
+	char	*cmd;
 
 	i = -1;
 	while (envp[++i])
@@ -40,14 +41,19 @@ char	*get_env_path(char **envp, char *command)
 			path = ft_strdup(envp[i]);
 	}
 	paths = ft_split(path + 5, ':');
+	if (command && ft_strrchr(command, '/'))
+		cmd = strrchr(command, '/') + 1;
+	else
+		cmd = command;
 	free(path);
 	i = -1;
 	while (paths[++i])
 	{
-		cmd_path = malloc(ft_strlen(paths[i]) + ft_strlen(command) + 2);
+		cmd_path = malloc(ft_strlen(paths[i]) + ft_strlen(cmd) + 2);
 		strcpy(cmd_path, paths[i]); // Implement strcpy
 		strcat(cmd_path, "/");	// Implement strcat
-		strcat(cmd_path, command);
+		strcat(cmd_path, cmd);
+		// printf("%s\n", cmd_path);
 		if (access(cmd_path, X_OK) == 0)
 		{
 			free_paths(paths); // free stuff looks above

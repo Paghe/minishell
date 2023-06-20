@@ -6,13 +6,13 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 18:55:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/01 19:01:12 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:06:37 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/lexer.h"
 
-void	get_env(t_tokens *tokens, char **env)
+int	get_env(t_tokens *tokens, char **env)
 {
 	int	i;
 
@@ -25,4 +25,5 @@ void	get_env(t_tokens *tokens, char **env)
 			i++;
 		}
 	}
+	return (1);
 }

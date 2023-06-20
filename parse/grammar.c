@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:34:03 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/16 20:08:43 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:02:52 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int	get_symbol(t_token *token)
 	return (0);
 }
 
-int	get_grammar(t_token *token)
+int	get_grammar(t_tokens *tokens)
 {
 	t_token	*current;
 
-	current = token;
+	current = tokens->front;
 	if (!check_first_token(current))
 		return (0);
 	while (current && current->next)
@@ -70,7 +70,7 @@ int	get_grammar(t_token *token)
 		}
 		if (!is_pipe(current))
 		{
-			printf("ERROR3\n");
+			ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 			return (0);
 		}
 		current = current->next;
@@ -79,13 +79,16 @@ int	get_grammar(t_token *token)
 		return (1);
 	else
 	{
-	/* 	if (tokens->size == 1)
+		if (tokens->size == 1)
 		{
 			ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 			return (0);
 		}
-		else */
-			printf("ERROR4\n");
+		else
+		{
+			ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+			return (0);
+		}
 		return (0);
 	}
 }

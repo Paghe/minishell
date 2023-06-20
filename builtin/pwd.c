@@ -6,13 +6,13 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:10:29 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/01 19:14:40 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:22:31 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/lexer.h"
 
-void	build_pwd(t_tokens *tokens)
+int	build_pwd(t_tokens *tokens)
 {
 	char	*pwd;
 
@@ -22,8 +22,9 @@ void	build_pwd(t_tokens *tokens)
 		if (!pwd)
 		{
 			ft_putstr_fd("error", 2);
-			return ;
+			return (0);
 		}
 		printf("%s\n", pwd);
 	}
+	return (1);
 }

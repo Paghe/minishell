@@ -6,17 +6,25 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:15:04 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/05 20:03:33 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:24:01 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/lexer.h"
 #include "../include/parse.h"
 
-void	built_in(t_tokens *tokens, char **env)
+int	built_in(t_tokens *tokens, char **env)
 {
-	echo(tokens);
-	change_dir(env, tokens);
-	get_env(tokens, env);
-	build_pwd(tokens);
+	int	flag;
+
+	flag = 0;
+	if (echo(tokens))
+		flag = 1;
+	if (change_dir(env, tokens))
+		flag = 1;
+	if (get_env(tokens, env))
+		flag = 1;
+	if (build_pwd(tokens))
+		flag = 1;
+	return (flag);
 }
