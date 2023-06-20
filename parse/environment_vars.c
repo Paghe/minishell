@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 13:59:13 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/18 16:27:57 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/20 13:23:56 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ int	is_env_var(char *word, char	**var_name, char **value)
 	return (0);
 }
 
-char	*get_env_var(char *var_name)
-{
-	char	*value;
+//char	*get_env_var(char *var_name)
+//{
+//	char	*value;
 
-	value = getenv(var_name);
-	if (value)
-		return (value);
-	value = "";
-	return (value);
-}
+//	value = getenv(var_name);
+//	if (value)
+//		return (value);
+//	value = "";
+//	return (value);
+//}
 
 int	count_dollars(char *word)
 {
@@ -60,4 +60,17 @@ int	count_dollars(char *word)
 		word++;
 	}
 	return (i);
+}
+
+void	free_env(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
 }

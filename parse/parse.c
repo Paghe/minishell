@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 21:42:37 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/20 13:15:06 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,25 +119,25 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 	}
 }
 
-void	replace_env_vars(t_cmds **cmds)
+void	replace_env_vars(t_cmds **cmds, char **envp)
 {
 	int		i;
 	int		j;
 	char	*arg;
 	char	*value;
 	int		dollars;
-	
+
 	i = 0;
 	j = 0;
 	while (cmds[i])
 	{
-		while(cmds[i]->cmds[j])
+		while (cmds[i]->cmds[j])
 		{
 			arg = cmds[i]->cmds[j];
 			dollars = count_dollars(arg);
 			if ((arg = ft_strrchr(arg, '$')) && dollars % 2 != 0)
 			{
-				value = get_env_var(arg + 1);
+				value = get_env_var(arg + 1, envp);
 				arg = (char *)malloc(sizeof(char) * (dollars + 1));
 				ft_strlcat(arg, cmds[i]->cmds[j], dollars);
 				value = ft_strjoin(arg, value);

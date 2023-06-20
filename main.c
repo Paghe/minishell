@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/18 22:41:07 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/20 13:24:14 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	execute_cmd(t_cmds *cmds, char **envp)
 	return ;
 }
 
-void	execute_cmds(t_cmds **cmds, char **envp)
+void	execute_cmds(t_cmds **cmds, char ***envp)
 {
 	int		i;
 	char	*var_name;
@@ -51,15 +51,18 @@ void	execute_cmds(t_cmds **cmds, char **envp)
 	value = NULL;
 	while (cmds[i])
 	{
-		if (is_env_var(cmds[i]->cmds[0], &var_name, &value))
+		if (ft_strncmp(cmds[i]->cmds[0], "unset", 5) == 0)
+			unset(envp, cmds[i]->cmds[1]);
+		else if (is_env_var(cmds[i]->cmds[0], &var_name, &value))
 		{
-			if (setenv(var_name, value, 1) == -1)
-				perror("setenv");
+			//if (setenv(var_name, value, 1) == -1)
+			//	perror("setenv");
+			set_env_var(envp, var_name, value);
 			free(var_name);
 			free(value);
 		}
 		else
-			pipe_proccess(&cmds[i], envp, cmds);
+			pipe_proccess(&cmds[i], *envp, cmds);
 		//execute_cmd(cmds[i], envp); // execute multiple cmds;
 		if (cmds[i]->data.env)
 			free(cmds[i]->data.env);
@@ -108,12 +111,13 @@ int	execute(char **envp)
 		}
 		cmds = init_list_commands(lexer.tokens);
 		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
-		replace_env_vars(cmds);
-		execute_cmds(cmds, envp);
+		replace_env_vars(cmds, envp);
+		execute_cmds(cmds, &envp);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);
 		//exit(0);
 	}
+	free_env(envp);
 	return (exec_code);
 }
 
@@ -123,7 +127,6 @@ int	main(int argc, char **argv, char **envp)
 	errno = 0;
 	(void)argc;
 	(void)argv;
-	printf("ENVIRONMENT: %s\n", *envp);
 	if ((code = execute(envp)) == -1)
 		return (-1);
 	return (0);
