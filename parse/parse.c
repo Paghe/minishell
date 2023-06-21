@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 13:15:06 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/21 01:23:31 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,9 @@ void	replace_env_vars(t_cmds **cmds, char **envp)
 	int		dollars;
 
 	i = 0;
-	j = 0;
 	while (cmds[i])
 	{
+		j = 0;
 		while (cmds[i]->cmds[j])
 		{
 			arg = cmds[i]->cmds[j];

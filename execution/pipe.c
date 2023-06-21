@@ -6,12 +6,14 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:49:01 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/18 22:18:27 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/20 23:29:26 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 #include "../include/control.h"
+
+extern char	**environ;
 
 int	init_pipes(t_cmds **cmds, int index)
 {
@@ -80,10 +82,7 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all)
 		else
 		{
 			if (execve((char const *)(*red)->data.env, (*red)->cmds, envp) == -1)
-			{
-				perror("execv");
 				exit(-1);
-			}
 		}
 	}
 		if ((*red)->data.pipe_in != -1)

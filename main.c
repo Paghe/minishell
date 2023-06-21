@@ -6,12 +6,13 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 13:24:14 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/21 04:50:11 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/control.h"
 #include "include/parse.h"
+
 
 void	leaks(void)
 {
@@ -39,7 +40,7 @@ void	execute_cmd(t_cmds *cmds, char **envp)
 	return ;
 }
 
-void	execute_cmds(t_cmds **cmds, char ***envp)
+void	execute_cmds(t_cmds **cmds, char ***envp, char ***shell_env, int *exit_code)
 {
 	int		i;
 	char	*var_name;
@@ -51,13 +52,22 @@ void	execute_cmds(t_cmds **cmds, char ***envp)
 	value = NULL;
 	while (cmds[i])
 	{
-		if (ft_strncmp(cmds[i]->cmds[0], "unset", 5) == 0)
+		if (ft_strncmp(cmds[i]->cmds[0], "exit", 4) == 0)
+		{
+			*exit_code = -1;
+			return ;
+		}
+		
+		if (ft_strncmp(cmds[i]->cmds[0], "export", 6) == 0)
+			export(cmds[i]->cmds, envp, shell_env);
+		else if (ft_strncmp(cmds[i]->cmds[0], "unset", 5) == 0)
+		{
 			unset(envp, cmds[i]->cmds[1]);
+			unset(shell_env, cmds[i]->cmds[1]);
+		}
 		else if (is_env_var(cmds[i]->cmds[0], &var_name, &value))
 		{
-			//if (setenv(var_name, value, 1) == -1)
-			//	perror("setenv");
-			set_env_var(envp, var_name, value);
+			set_env_var(shell_env, var_name, value);
 			free(var_name);
 			free(value);
 		}
@@ -75,17 +85,18 @@ void	execute_cmds(t_cmds **cmds, char ***envp)
 	//}
 }
 
-int	execute(char **envp)
+int	execute(char **envp, int *exit_code)
 {
 	int		exec_code;
 	t_lexer	lexer;
 	t_cmds	**cmds;
 	char	*input;
+	char	**shell_env;
 
 	signal(SIGINT, cntr_handler);
 	signal(SIGQUIT, cntr_handler);
 	cmds = NULL;
-	exec_code = 0;
+	shell_env = copy_env(envp);
 	while (1)
 	{
 		clear_line();
@@ -111,23 +122,38 @@ int	execute(char **envp)
 		}
 		cmds = init_list_commands(lexer.tokens);
 		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
-		replace_env_vars(cmds, envp);
-		execute_cmds(cmds, &envp);
+		//if (export)
+			replace_env_vars(cmds, shell_env);
+		//else
+		//	replace_env_vars(cmds, envp);
+		execute_cmds(cmds, &envp, &shell_env, exit_code);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);
-		//exit(0);
+		if (*exit_code != 0)
+			break ;
+		//exit_code(0);
 	}
-	free_env(envp);
-	return (exec_code);
+	free_env(shell_env);
+	//free_env(envp);
+	return (*exit_code);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	int	code;
+	char	**env_vars;
+	int		exit_code;
+
 	errno = 0;
+	exit_code = 0;
+	env_vars = copy_env(envp);
 	(void)argc;
 	(void)argv;
-	if ((code = execute(envp)) == -1)
+	if ((code = execute(env_vars, &exit_code)) == -1)
+	{
+		free_env(env_vars);
 		return (-1);
+	}
+	free_env(env_vars);
 	return (0);
 }
