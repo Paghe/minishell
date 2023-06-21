@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 19:43:16 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:33:55 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct s_cmds
 	t_data	data;
 }	t_cmds;
 
-char	*escape_quote(t_token *token);
-void	no_quote(t_token *token);
+char	*escape_quote(char	*cmds);
+void	no_quote(t_cmds *cmds);
 int		is_symbol(t_token *token);
 int		check_first_token(t_token	*token);
 int		get_grammar(t_tokens *tokens);
@@ -64,4 +64,9 @@ int		unset(char ***envp, char *var_name);
 void	print_env(char **envp);
 int		set_env_var(char ***envp, char	*var_name, char *value);
 void	free_env(char **envp);
+int		built_in(t_cmds *cmds, char **env);
+int		echo(t_cmds *cmds);
+int		change_dir(char **env, t_cmds *cmds);
+int		get_env(t_cmds *cmds, char **env);
+int		build_pwd(t_cmds *cmds);
 #endif

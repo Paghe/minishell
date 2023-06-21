@@ -6,57 +6,58 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 19:42:09 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 16:31:10 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 #include "../include/control.h"
 
-char	*escape_quote(t_token *token)
+char	*escape_quote(char	*cmds)
 {
 	int		i;
 	int		j;
-	char	*new_token;
+	char	*new_cmds;
 
 	i = 0;
 	j = 0;
-	while (token->token[i])
+	while (cmds[i])
 	{
-		if (token->token[i] != '\"' && token->token[i] != '\'')
+		if (cmds[i] != '\"' && cmds[i] != '\'')
 			j++;
 		i++;
 	}
+	new_cmds = malloc(sizeof(char) * (j + 1));
 	i = 0;
-	new_token = malloc(sizeof(char) * (j + 1));
 	j = 0;
-	while (token->token[i])
+	while (cmds[i])
 	{
-		if (token->token[i] && (token->token[i] != '\"' && token->token[i] != '\''))
+		if (cmds[i] && (cmds[i] != '\"' && cmds[i] != '\''))
 		{
-			new_token[j] = token->token[i];
+			new_cmds[j] = cmds[i];
 			j++;
 		}
 		i++;
 	}
-	new_token[j] = '\0';
-	return (new_token);
+	new_cmds[j] = '\0';
+	return (new_cmds);
 }
 
-void	no_quote(t_token *token)
+void	no_quote(t_cmds *cmds)
 {
-	t_token	*new_token;
+	int		i;
 	char	*tmp;
 
-	new_token = token;
-	while (new_token)
+	i = 0;
+	while (cmds->cmds[i])
 	{
-		tmp = escape_quote(new_token);
-		free(new_token->token);
-		new_token->token = ft_strdup(tmp);
-		new_token = new_token->next;
+		tmp = escape_quote(cmds->cmds[i]);
+		if (cmds->cmds[i])
+			free(cmds->cmds[i]);
+		cmds->cmds[i] = ft_strdup(tmp);
+		free(tmp);
+		i++;
 	}
-	new_token = token;
 }
 
 int	count_commands(t_tokens	*tokens)

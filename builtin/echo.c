@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:27:24 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 19:33:36 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 16:28:34 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,45 +29,45 @@ int	is_echo_newline(char *current)
 	return (0);
 }
 
-void	echo_newline(t_token *current)
+void	echo_newline(t_cmds **cmds)
 {
 	int		no_newline;
 	int		i;
 
 	no_newline = 0;
 	i = 0;
-	while (current->token[i])
+	while (cmds[0]->cmds[0][i])
 	{
-		current->token[i] = ft_tolower(current->token[i]);
+		cmds[0]->cmds[0][i]= ft_tolower(cmds[0]->cmds[0][i]);
 		i++;
 	}
 	i = 0;
-	if (!ft_strncmp(current->token, "echo", 5) && !current->next)
+	if (!ft_strncmp(cmds[0]->cmds[i], "echo", 5) && !cmds[0]->cmds[i + 1])
 	{
 		ft_putstr_fd("\n", 1);
 		return ;
 	}
-	if (!ft_strncmp(current->token, "echo", 5))
+	if (!ft_strncmp(cmds[0]->cmds[i], "echo", 5))
 	{
-		if (current->next)
-			current = current->next;
-		while (current && current->type != DQUOTE && current->type != SQUOTE && !ft_memcmp(current->token, "-n", 2))
+		if (cmds[0]->cmds[i + 1])
+			i++;
+		while (cmds[0]->cmds[i] && cmds[0]->cmds[i][0] != '\"' && cmds[0]->cmds[i][0] != '\'' && !ft_memcmp(cmds[0]->cmds[i], "-n", 2))
 		{
-			if (!ft_memcmp(current->token, "-n", 2))
+			if (!ft_memcmp(cmds[0]->cmds[i], "-n", 2))
 			{
-				if (is_echo_newline(current->token))
+				if (is_echo_newline(cmds[0]->cmds[i]))
 					break ;
 				else
 					no_newline = 1;
 			}
-			current = current->next;
+			i++;
 		}
-		while (current)
+		while (cmds[0]->cmds[i])
 		{
-			ft_putstr_fd(current->token, 1);
-			if (current->next)
+			ft_putstr_fd(cmds[0]->cmds[i], 1);
+			if (cmds[0]->cmds[i + 1])
 				ft_putstr_fd(" ", 1);
-			current = current->next;
+			i++;
 		}
 		if (!no_newline)
 			ft_putstr_fd("\n", 1);
@@ -95,12 +95,9 @@ void	echo_newline(t_token *current)
 		echo_newline(current);
 } */
 
-int	echo(t_tokens *tokens)
+int	echo(t_cmds *cmds)
 {
-	t_token	*current;
-
-	current = tokens->front;
-	no_quote(current);
-	echo_newline(current);
+	no_quote(cmds);
+	echo_newline(&cmds);
 	return (1);
 }

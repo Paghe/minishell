@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:49:01 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/18 22:18:27 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/21 17:19:25 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,22 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all)
 			close((*red)->data.fd_out);
 		}
 		//while(1);
-		(*red)->cmds = escape_quotes_cmds((*red)->cmds);
-		if (ft_strncmp((*red)->cmds[0], "./", 2) == 0)
+		if (if_is_builtin((*red)->cmds[0]))
 		{
+			built_in(*red, envp);
+			exit(0);
+		/* 	destroy_tokens(lexer.tokens);
+			free_parse(cmds); */
+		}
+		else if (ft_strncmp((*red)->cmds[0], "./", 2) == 0)
+		{
+			(*red)->cmds = escape_quotes_cmds((*red)->cmds);
 			if (execve((*red)->cmds[0], (*red)->cmds, envp) == -1)
 				exit(-1);
 		}
 		else
 		{
+			(*red)->cmds = escape_quotes_cmds((*red)->cmds);
 			if (execve((char const *)(*red)->data.env, (*red)->cmds, envp) == -1)
 			{
 				perror("execv");
