@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 23:33:57 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/21 04:56:02 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_data
 	int		fd_out;
 	int		pipe_in;
 	int		pipe_out;
-	int		export;
+	int		is_append;
 }	t_data;
 
 typedef struct s_cmds

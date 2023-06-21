@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:49:01 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/20 23:29:26 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/21 05:15:58 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all)
 		if ((*red)->data.input || (*red)->data.output)
 		{
 			(*red)->data.fd_in = open((*red)->data.input, O_RDONLY);
-			(*red)->data.fd_out = open((*red)->data.output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if ((*red)->data.is_append)
+				(*red)->data.fd_out = open((*red)->data.output, O_WRONLY | O_APPEND | O_CREAT, 0644);
+			else
+				(*red)->data.fd_out = open((*red)->data.output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			redirect_io((*red)->data.fd_in, (*red)->data.fd_out);
 			close((*red)->data.fd_in);
 			close((*red)->data.fd_out);

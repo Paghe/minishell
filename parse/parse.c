@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 01:23:31 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/21 05:12:37 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 	t_token	*current;
 	int		i;
 	int		j;
-	int		fd;
 
 	current = tokens->front;
 	i = 0;
@@ -95,13 +94,13 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 		}
 		else if (is_output_redirect(current))
 		{
+			if (current->type == DMORE)
+				cmds[i]->data.is_append = 1;
 			if (current->next && is_the_word(current->next))
 			{
 				if (cmds[i]->data.output)
 					free(cmds[i]->data.output);
 				cmds[i]->data.output = ft_strdup(current->next->token);
-				fd = open(current->next->token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				close(fd);
 				current = current->next;
 			}
 		}

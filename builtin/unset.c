@@ -6,7 +6,7 @@
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:27:05 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/21 04:40:38 by crepou           ###   ########.fr       */
+/*   Updated: 2023/06/21 05:05:52 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,20 @@ int	is_inside_env(char	**envp, char	*var_name)
 	return (0);
 }
 
+int	get_env_index(char	**envp, char	*var_name)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], var_name, ft_strlen(var_name)) == 0)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
 int	set_env_var(char ***envp, char	*var_name, char *value) //fix protection
 {
 	char	**new_envp;
@@ -99,13 +113,15 @@ int	set_env_var(char ***envp, char	*var_name, char *value) //fix protection
 		free((*envp)[i]);
 		i++;
 	}
-	if (!is_inside_env(*envp, var_name))
+	if (is_inside_env(*envp, var_name))
 	{
-		temp = ft_strjoin(var_name, "=");
-		new_envp[i] = ft_strjoin(temp, value);
-		free(temp);
-		i++;
+		i = get_env_index(*envp, var_name);
+		free(new_envp[i]);
 	}
+	temp = ft_strjoin(var_name, "=");
+	new_envp[i] = ft_strjoin(temp, value);
+	free(temp);
+	i++;
 	new_envp[i] = NULL;
 	free(*envp);
 	*envp = new_envp;
