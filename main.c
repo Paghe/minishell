@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 19:42:22 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:10:17 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,26 +109,21 @@ int	execute(char **envp)
 			return (0);
 		}
 		cmds = init_list_commands(lexer.tokens);
-		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
-<<<<<<< HEAD
-		replace_env_vars(cmds, envp);
-		execute_cmds(cmds, &envp);
-=======
+		parse_tokens(lexer.tokens, cmds, envp);
 		//replace_env_vars(cmds);
-		if (built_in(lexer.tokens, envp))
+		if (if_is_builtin(lexer.tokens))
 		{
-			destroy_tokens(lexer.tokens);
-			free_parse(cmds);
-			return (0);
+			built_in(lexer.tokens, envp);
+		/* 	destroy_tokens(lexer.tokens);
+			free_parse(cmds); */
 		}
 		else
-			execute_cmds(cmds, envp);
->>>>>>> echo passed all the test
+			execute_cmds(cmds, &envp);
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);
 		//exit(0);
 	}
-	free_env(envp);
+/* 	free_env(envp); */
 	return (exec_code);
 }
 
