@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:27:24 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 16:28:34 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:05:01 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	echo_newline(t_cmds **cmds)
 	i = 0;
 	if (!ft_strncmp(cmds[0]->cmds[i], "echo", 5) && !cmds[0]->cmds[i + 1])
 	{
-		ft_putstr_fd("\n", 1);
+		if (cmds[0]->data.pipe_out != -1)
+			ft_putstr_fd("\n", cmds[0]->data.pipe_out);
+		else
+			ft_putstr_fd("\n", 1);
 		return ;
 	}
 	if (!ft_strncmp(cmds[0]->cmds[i], "echo", 5))
@@ -64,13 +67,26 @@ void	echo_newline(t_cmds **cmds)
 		}
 		while (cmds[0]->cmds[i])
 		{
-			ft_putstr_fd(cmds[0]->cmds[i], 1);
+			if (cmds[0]->data.pipe_out != -1)
+				ft_putstr_fd(cmds[0]->cmds[i], cmds[0]->data.pipe_out);
+			else
+				ft_putstr_fd(cmds[0]->cmds[i], 1);
 			if (cmds[0]->cmds[i + 1])
-				ft_putstr_fd(" ", 1);
+			{
+				if (cmds[0]->data.pipe_out != -1)
+					ft_putstr_fd(" ", cmds[0]->data.pipe_out);
+				else
+					ft_putstr_fd(" ", 1);
+			}
 			i++;
 		}
 		if (!no_newline)
-			ft_putstr_fd("\n", 1);
+		{
+			if (cmds[0]->data.pipe_out != -1)
+				ft_putstr_fd("\n", cmds[0]->data.pipe_out);
+			else
+				ft_putstr_fd("\n", 1);
+		}
 	}
 }
 

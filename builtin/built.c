@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:15:04 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 17:36:34 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:13:32 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	if_is_builtin(char *cmd)
 	i = 0;
 	if (!ft_strncmp(cmd, "echo", 5))
 		return (1);
-	if (!ft_strncmp(cmd, "cd", 3))
+	if (!ft_memcmp(cmd, "cd", 3))
 		return (1);
 	if (!ft_strncmp(cmd, "env", 4))
 		return (1);

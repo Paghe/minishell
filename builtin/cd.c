@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 20:20:51 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 17:56:27 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:05:18 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	change_dir(char **env, t_cmds *cmds)
 		change_old(env);
 		dir = get_path(cmds);
 		printf("%s\n", dir);
-		chdir(dir);
 		if (chdir(dir) != 0)
 		{
 			ft_putstr_fd("error1\n", 2);

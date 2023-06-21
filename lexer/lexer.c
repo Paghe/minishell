@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:48:23 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/20 16:09:52 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:18:30 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void	parsing(t_lexer *lexer, char *input)
 	line = replace_spaces(input);
 	good_line = format_line(line);
 	good_line = replace_spaces(good_line);
+	good_line = ft_strtrim(good_line, " ");
 	len = min(ft_strlen(good_line), LINEBUFFER_MAX);
 	ft_memcpy(buffer, good_line, len);
 	buffer[len] = '\0';
