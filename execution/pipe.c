@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 21:49:01 by crepou            #+#    #+#             */
-/*   Updated: 2023/06/21 21:00:03 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:06:40 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all , int n_commands)
 	if (if_is_builtin((*red)->cmds[0]) && n_commands ==  1)
 	{
 		built_in(*red, envp);
-		printf("WTF");
 		if ((*red)->data.pipe_in != -1)
 			close((*red)->data.pipe_in);
 		if ((*red)->data.pipe_out != -1)

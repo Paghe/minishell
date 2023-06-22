@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 20:20:51 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 21:05:18 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:23:47 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,45 @@ void	change_current_pwd(char **env)
 	free(current);
 }
 
+char	*go_home(char **env)
+{
+	int		i;
+	char	*dir;
+
+	i = 0;
+	dir = NULL;
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], "HOME=", ft_strlen("HOME=")))
+		{
+			dir = ft_strdup(env[i] + 5);
+			return (dir);
+		}
+		i++;
+	}
+	return (dir);
+}
+
 int	change_dir(char **env, t_cmds *cmds)
 {
 	char	*dir;
 	int		i;
 
 	i = 0;
-	if (!ft_strncmp(cmds[0].cmds[i], "cd", 3) && ft_strncmp(cmds[0].cmds[i + 1], "..", 3))
+	if (!ft_strncmp(cmds[0].cmds[i], "cd", 2) && !cmds[0].cmds[i + 1])
+	{
+		dir = go_home(env);
+		if (chdir(dir) != 0)
+		{
+			ft_putstr_fd("error1\n", 2);
+			free(dir);
+			return (0);
+		}
+	}
+	if (!ft_strncmp(cmds[0].cmds[i], "cd", 2) && cmds[0].cmds[i + 1] && ft_strncmp(cmds[0].cmds[i + 1], "..", 3))
 	{
 		change_old(env);
 		dir = get_path(cmds);
-		printf("%s\n", dir);
 		if (chdir(dir) != 0)
 		{
 			ft_putstr_fd("error1\n", 2);
@@ -90,7 +118,7 @@ int	change_dir(char **env, t_cmds *cmds)
 		change_current_pwd(env);
 		free(dir);
 	}
-	if (!ft_strncmp(cmds[0].cmds[i], "cd", 3) && !ft_strncmp(cmds[0].cmds[i + 1], "..", 3))
+	if (!ft_strncmp(cmds[0].cmds[i], "cd", 2) && cmds[0].cmds[i + 1] && !ft_strncmp(cmds[0].cmds[i + 1], "..", 3))
 	{
 		change_old(env);
 		if (chdir("..") != 0)
