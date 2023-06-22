@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 16:31:10 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:16:32 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,10 @@ void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp)
 			if (cmds[i]->data.env)
 				free(cmds[i]->data.env);
 			cmds[i]->cmds[j] = ft_strdup(current->token);
+			/* if (current->type == DQUOTE)
+				cmds[i]->data.type = DOQUOTE;
+			if (current->type == SQUOTE)
+				cmds[i]->data.type = SIQUOTE; */
 			cmds[i]->data.env = get_env_path(envp, cmds[i]->cmds[0]);
 			j++;
 			cmds[i]->cmds[j] = NULL;

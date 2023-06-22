@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:27:24 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 20:05:01 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:21:35 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	echo_newline(t_cmds **cmds)
 	int		no_newline;
 	int		i;
 
+
 	no_newline = 0;
 	i = 0;
 	while (cmds[0]->cmds[0][i])
@@ -56,6 +57,7 @@ void	echo_newline(t_cmds **cmds)
 			i++;
 		while (cmds[0]->cmds[i] && cmds[0]->cmds[i][0] != '\"' && cmds[0]->cmds[i][0] != '\'' && !ft_memcmp(cmds[0]->cmds[i], "-n", 2))
 		{
+			no_quote(*cmds);
 			if (!ft_memcmp(cmds[0]->cmds[i], "-n", 2))
 			{
 				if (is_echo_newline(cmds[0]->cmds[i]))
@@ -67,6 +69,7 @@ void	echo_newline(t_cmds **cmds)
 		}
 		while (cmds[0]->cmds[i])
 		{
+			no_quote(*cmds);
 			if (cmds[0]->data.pipe_out != -1)
 				ft_putstr_fd(cmds[0]->cmds[i], cmds[0]->data.pipe_out);
 			else
@@ -113,7 +116,6 @@ void	echo_newline(t_cmds **cmds)
 
 int	echo(t_cmds *cmds)
 {
-	no_quote(cmds);
 	echo_newline(&cmds);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 20:20:51 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/22 12:23:47 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:09:22 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_path(t_cmds *cmds)
 
 	path = getcwd(NULL, 0);
 	tmp = ft_strjoin(path, "/");
-	if (cmds[0].cmds[0][0] == '/')
+	if (cmds[0].cmds[1][0] == '/')
 		dir = ft_strjoin(path, dir);
 	else
 		dir = ft_strjoin(tmp, cmds[0].cmds[1]);
@@ -95,12 +95,40 @@ int	change_dir(char **env, t_cmds *cmds)
 	int		i;
 
 	i = 0;
+	if (!ft_strncmp(cmds[0].cmds[i], "cd", 2) && !ft_strncmp(cmds[0].cmds[i + 1],"/Users", ft_strlen("/Users")))
+	{
+		dir = getcwd(NULL, 0);
+		while (!ft_strncmp(dir, "/Users", ft_strlen("/Users")))
+		{
+			change_old(env);
+			if (chdir("..") != 0)
+			{
+				perror(dir);
+				return (0);
+			}
+			free(dir);
+			dir = getcwd(NULL, 0);
+			if (!ft_strncmp(dir, "/Users", ft_strlen("/Users") + 1))
+			{
+				if (chdir(dir) != 0)
+				{
+					perror(cmds[0].cmds[i + 1]);
+					return (0);
+				}
+				else
+				{
+					change_current_pwd(env);
+					return (1);
+				}
+			}
+		}
+	}	
 	if (!ft_strncmp(cmds[0].cmds[i], "cd", 2) && !cmds[0].cmds[i + 1])
 	{
 		dir = go_home(env);
 		if (chdir(dir) != 0)
 		{
-			ft_putstr_fd("error1\n", 2);
+			perror(dir);
 			free(dir);
 			return (0);
 		}
@@ -111,7 +139,7 @@ int	change_dir(char **env, t_cmds *cmds)
 		dir = get_path(cmds);
 		if (chdir(dir) != 0)
 		{
-			ft_putstr_fd("error1\n", 2);
+			perror(cmds[0].cmds[1]);
 			free(dir);
 			return (0);
 		}
@@ -123,7 +151,7 @@ int	change_dir(char **env, t_cmds *cmds)
 		change_old(env);
 		if (chdir("..") != 0)
 		{
-			ft_putstr_fd("error\n", 2);
+			perror(cmds[0].cmds[1]);
 			return (0);
 		}
 		change_current_pwd(env);

@@ -6,7 +6,7 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 21:20:03 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:37:26 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 
 typedef struct s_data
 {
-	char	*env;
-	char	*input;
-	char	*output;
-	int		fd_in;
-	int		fd_out;
-	int		pipe_in;
-	int		pipe_out;
+	char		*env;
+	char		*input;
+	char		*output;
+	int			fd_in;
+	int			fd_out;
+	int			pipe_in;
+	int			pipe_out;
 }	t_data;
 
 typedef struct s_cmds
@@ -69,5 +69,5 @@ int		echo(t_cmds *cmds);
 int		change_dir(char **env, t_cmds *cmds);
 int		get_env(t_cmds *cmds, char **env);
 int		build_pwd(t_cmds *cmds);
-int	count_env_vars(char **envp);
+int		count_env_vars(char **envp);
 #endif
