@@ -1,4 +1,4 @@
-FLAGS = -Wall -Wextra -Werror -I $(shell brew --prefix readline)/include
+FLAGS = -Wall -Wextra -Werror #-I $(shell brew --prefix readline)/include
 #FLAGS += -g -fsanitize=address 
 
 NAME = minishell
@@ -31,7 +31,7 @@ OBJ = $(SRC:.c=.o)
 
 LIBFT = ./libft/libft.a
 
-LINKFLAGS = -lreadline -L$(shell brew --prefix readline)/lib -L/Users/crepou/Documents/LeakSanitizer -llsan -lc++
+LINKFLAGS = -lreadline #-L$(shell brew --prefix readline)/lib -L/Users/apaghera/Documents/LeakSanitizer -llsan -lc++
 
 all: 
 	$(MAKE) $(NAME) -j
@@ -50,4 +50,8 @@ fclean:
 	make clean
 	rm -f $(NAME)
 	rm -f $(LIBFT)
+
+test:
+	@cd tests && bash tester.sh a
+
 re: fclean all

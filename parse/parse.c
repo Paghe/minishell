@@ -3,48 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:59:22 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 05:12:37 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 #include "../include/control.h"
 
-char	*escape_quote(t_token *token)
+char	*escape_quote(char	*cmds)
 {
 	int		i;
 	int		j;
-	char	*new_token;
+	char	*new_cmds;
 
 	i = 0;
 	j = 0;
-	if (token->token[i] == '\"' || token->token[i] == '\'')
+	while (cmds[i])
+	{
+		if (cmds[i] != '\"' && cmds[i] != '\'')
+			j++;
 		i++;
-	j = i;
-	while (token->token[i] && \
-		(token->token[i] != '\'' && token->token[i] != '\"'))
+	}
+	new_cmds = malloc(sizeof(char) * (j + 1));
+	i = 0;
+	j = 0;
+	while (cmds[i])
+	{
+		if (cmds[i] && (cmds[i] != '\"' && cmds[i] != '\''))
+		{
+			new_cmds[j] = cmds[i];
+			j++;
+		}
 		i++;
-	new_token = ft_substr(token->token, j, i - j);
-	return (new_token);
+	}
+	new_cmds[j] = '\0';
+	return (new_cmds);
 }
 
-void	no_quote(t_token *token)
+void	no_quote(t_cmds *cmds)
 {
-	t_token	*new_token;
+	int		i;
 	char	*tmp;
 
-	new_token = token;
-	while (new_token)
+	i = 0;
+	while (cmds->cmds[i])
 	{
-		tmp = escape_quote(new_token);
-		free(new_token->token);
-		new_token->token = tmp;
-		new_token = new_token->next;
+		tmp = escape_quote(cmds->cmds[i]);
+		if (cmds->cmds[i])
+			free(cmds->cmds[i]);
+		cmds->cmds[i] = ft_strdup(tmp);
+		free(tmp);
+		i++;
 	}
-	new_token = token;
 }
 
 int	count_commands(t_tokens	*tokens)

@@ -3,10 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 19:17:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 04:56:02 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +35,11 @@ typedef struct s_cmds
 	t_data	data;
 }	t_cmds;
 
-char	*escape_quote(t_token *token);
-void	no_quote(t_token *token);
+char	*escape_quote(char	*cmds);
+void	no_quote(t_cmds *cmds);
 int		is_symbol(t_token *token);
 int		check_first_token(t_token	*token);
-int		get_grammar(t_token *token);
+int		get_grammar(t_tokens *tokens);
 int		is_word(t_token *token);
 void	parse_tokens(t_tokens *tokens, t_cmds **cmds, char **envp);
 int		is_input_redirect(t_token *token);
@@ -55,7 +54,7 @@ void	redirect_io(int input, int output);
 int		begin_with_pipes(t_token *token);
 int		init_pipes(t_cmds **cmds, int index);
 void	close_all(t_cmds **cmds);
-void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all);
+void	pipe_proccess(t_cmds **red, char **envp, t_cmds **all , int n_commands);
 int		is_env_var(char *word, char	**var_name, char **value);
 char	*get_env_var(char *var_name, char **envp);
 void	replace_env_vars(t_cmds **cmds, char **envp);
@@ -67,4 +66,10 @@ int		set_env_var(char ***envp, char	*var_name, char *value);
 void	free_env(char **envp);
 void	export(char **cmds, char ***env, char ***shell_env);
 char	**copy_env(char **envp);
+int		built_in(t_cmds *cmds, char **env);
+int		echo(t_cmds *cmds);
+int		change_dir(char **env, t_cmds *cmds);
+int		get_env(t_cmds *cmds, char **env);
+int		build_pwd(t_cmds *cmds);
+int	count_env_vars(char **envp);
 #endif

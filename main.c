@@ -3,10 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:35:49 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/21 04:50:11 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +39,30 @@ void	execute_cmd(t_cmds *cmds, char **envp)
 	return ;
 }
 
-void	execute_cmds(t_cmds **cmds, char ***envp, char ***shell_env, int *exit_code)
+char	**copy_env(char **envp)
+{
+	char	**new_envp;
+	int		i;
+	int		count;
+
+	i = 0;
+	count = count_env_vars(envp);
+	new_envp = (char **)malloc(sizeof(char *) * (count + 1));
+	while (i < count)
+	{
+		new_envp[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	return (new_envp);
+}
+
+void	execute_cmds(t_cmds **cmds, char ***envp, char ***shell_env, int *exit_code, int n_commands)
 {
 	int		i;
 	char	*var_name;
 	char	*value;
-
+	(void)n_commands;
 	i = 0;
-	//j = 0;
 	var_name = NULL;
 	value = NULL;
 	while (cmds[i])
@@ -72,17 +87,10 @@ void	execute_cmds(t_cmds **cmds, char ***envp, char ***shell_env, int *exit_code
 			free(value);
 		}
 		else
-			pipe_proccess(&cmds[i], *envp, cmds);
-		//execute_cmd(cmds[i], envp); // execute multiple cmds;
+			pipe_proccess(&cmds[i], *envp, cmds, n_commands);
 		if (cmds[i]->data.env)
 			free(cmds[i]->data.env);
 		i++;
-	}
-	//while (j != i - 1) //save status of last
-	//{
-	//	waitpid(struct pid, NULL, 0);
-	//	j++;
-	//}
 }
 
 int	execute(char **envp, int *exit_code)
@@ -91,11 +99,12 @@ int	execute(char **envp, int *exit_code)
 	t_lexer	lexer;
 	t_cmds	**cmds;
 	char	*input;
-	char	**shell_env;
+	char **shell_env;
 
 	signal(SIGINT, cntr_handler);
 	signal(SIGQUIT, cntr_handler);
 	cmds = NULL;
+	exec_code = 0;
 	shell_env = copy_env(envp);
 	while (1)
 	{
@@ -114,27 +123,21 @@ int	execute(char **envp, int *exit_code)
 		add_history(input);
 		parsing(&lexer, ft_strdup(input));
 		free(input);
-		//built_in(lexer.tokens, envp);
-		if (!get_grammar(lexer.tokens->front))
+		if (!get_grammar(lexer.tokens))
 		{
 			destroy_tokens(lexer.tokens);
 			return (0);
 		}
 		cmds = init_list_commands(lexer.tokens);
 		parse_tokens(lexer.tokens, cmds, envp); // execute outside of parsing is way better and we can work in 2 blocks
-		//if (export)
-			replace_env_vars(cmds, shell_env);
-		//else
-		//	replace_env_vars(cmds, envp);
-		execute_cmds(cmds, &envp, &shell_env, exit_code);
+		replace_env_vars(cmds, shell_env);
+		execute_cmds(cmds, &envp, &shell_env, exit_code, count_commands(lexer.tokens));
 		destroy_tokens(lexer.tokens);
 		free_parse(cmds);
 		if (*exit_code != 0)
 			break ;
-		//exit_code(0);
 	}
 	free_env(shell_env);
-	//free_env(envp);
 	return (*exit_code);
 }
 

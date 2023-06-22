@@ -6,17 +6,50 @@
 /*   By: apaghera <apaghera@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 19:15:04 by apaghera          #+#    #+#             */
-/*   Updated: 2023/06/05 20:03:33 by apaghera         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:13:32 by apaghera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/lexer.h"
 #include "../include/parse.h"
 
-void	built_in(t_tokens *tokens, char **env)
+int	if_is_builtin(char *cmd)
 {
-	echo(tokens);
-	change_dir(env, tokens);
-	get_env(tokens, env);
-	build_pwd(tokens);
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		cmd[i] = ft_tolower(cmd[i]);
+		i++;
+	}
+	i = 0;
+	if (!ft_strncmp(cmd, "echo", 5))
+		return (1);
+	if (!ft_memcmp(cmd, "cd", 3))
+		return (1);
+	if (!ft_strncmp(cmd, "env", 4))
+		return (1);
+	if (!ft_strncmp(cmd, "pwd", 4))
+		return (1);
+	if (!ft_strncmp(cmd, "unset", 6))
+		return (1);
+	return (0);
+}
+
+int	built_in(t_cmds *cmds, char **env)
+{
+	int	flag;
+
+	flag = 0;
+	(void)env;
+	if (echo(cmds))
+		flag = 1;
+	if (change_dir(env, cmds))
+		flag = 1;
+	if (get_env(cmds, env))
+		flag = 1;
+	if (build_pwd(cmds))
+		flag = 1;
+	return (flag);
 }
